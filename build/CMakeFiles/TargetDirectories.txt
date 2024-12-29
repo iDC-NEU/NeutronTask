@@ -1,0 +1,7 @@
+/home/hdd2/lusz/NeutronTask/build/CMakeFiles/rebuild_cache.dir
+/home/hdd2/lusz/NeutronTask/build/CMakeFiles/edit_cache.dir
+/home/hdd2/lusz/NeutronTask/build/CMakeFiles/nts.dir
+/home/hdd2/lusz/NeutronTask/build/CMakeFiles/format.dir
+/home/hdd2/lusz/NeutronTask/build/cuda/CMakeFiles/rebuild_cache.dir
+/home/hdd2/lusz/NeutronTask/build/cuda/CMakeFiles/edit_cache.dir
+/home/hdd2/lusz/NeutronTask/build/cuda/CMakeFiles/cuda_propagate.dir

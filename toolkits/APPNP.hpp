@@ -15,37 +15,37 @@ public:
     ValueType decay_rate;
     ValueType decay_epoch;
 
-    int num_devices;
+    int num_devices;//num_device = 0是CPU执行
     int num_pipelines;
     int K;
     ValueType appnp_alpha;
     
-    
-    
-    
+    // graph
+    // VertexSubset *active;
+    // graph with no edge data
     Graph<Empty> *graph;
     FullyRepGraph* full_rep_graph;
 
     MultiDeviceGenerator* subgraph_generator; 
     
-    
+    //NN
     GNNDatum *gnndatum;
-    
-    
-    
+    // NtsVar label_cpu;//这三个东西在子图那个类里面了
+    // NtsVar label_gpu;
+    // NtsVar MASK;
 
-    
+    // Variables
     std::vector<Parameter *> P;
     std::vector<NtsVar> X;
     nts::ctx::NtsContext* ctx;
-    std::vector<nts::ctx::NtsContext *> device_ctx;
+    std::vector<nts::ctx::NtsContext *> device_ctx;//for multiGPU
 
-    std::vector<std::vector<nts::ctx::NtsContext *>> device_T_ctx;
-    std::vector<std::vector<nts::ctx::NtsContext *>> device_P_ctx;
+    std::vector<std::vector<nts::ctx::NtsContext *>> device_T_ctx;//for decoupled  [pipeline id][device id]
+    std::vector<std::vector<nts::ctx::NtsContext *>> device_P_ctx;//for decoupled
 
     
     NtsVar F;
-    
+    // NtsVar loss;
     std::vector<ValueType> train_acc;
     std::vector<ValueType> val_acc;
     std::vector<ValueType> test_acc;
@@ -61,7 +61,7 @@ public:
 
     bool resourse_decoupled = false;
 
-    
+    //time
     std::vector<double> NN_time;
     std::vector<double> g_time;
     std::vector<double> T2P_time;
@@ -95,12 +95,12 @@ public:
         assert(num_pipelines >= 1);
         LOG_INFO("pipeline num: %d", num_pipelines);
 
-        
-        
+        // active = graph->alloc_vertex_subset();
+        // active->fill();
         graph->init_gnnctx(graph->config->layer_string);
-        
-        
-        
+        //APPNP不采样
+        // graph->init_gnnctx_fanout(graph->config->fanout_string);
+        // rtminfo initialize
         graph->init_rtminfo();
         graph->rtminfo->process_local = graph->config->process_local;
         graph->rtminfo->reduce_comm = graph->config->process_local;
@@ -116,7 +116,7 @@ public:
         full_rep_graph = new FullyRepGraph(graph);
         full_rep_graph->GenerateAll();
         full_rep_graph->SyncAndLog("read_finish");
-        if(num_devices > 1){
+        if(num_devices > 1){//多GPU要创建多个ctx，还没写
 
         } else {
             ctx=new nts::ctx::NtsContext();
@@ -142,8 +142,8 @@ public:
                                              graph->config->label_file,
                                              graph->config->mask_file);
         }
-        
-        
+        // gnndatum->registLabel(label_cpu);
+        // gnndatum->registMask(MASK);
 
         for (int i = 0; i < graph->gnnctx->layer_size.size() - 1; i++) {
             P.push_back(new Parameter(graph->gnnctx->layer_size[i],
@@ -152,17 +152,17 @@ public:
         }
 
         for (int i = 0; i < P.size(); i++) {
-            P[i]->init_parameter();
+            P[i]->init_parameter();//用不用无所谓，毕竟咱是单机多卡（多线程来实现的）
             P[i]->set_decay(decay_rate, decay_epoch);
         }
 
-        
-        
-        
-        
+        // F = graph->Nts->NewLeafTensor( //
+        //     gnndatum->local_feature,
+        //     {graph->gnnctx->l_v_num, graph->gnnctx->layer_size[0]},
+        //     torch::DeviceType::CPU);
 
 
-        
+        // debug_init_info();
     }
 
     void init_decoupled_version(){
@@ -170,19 +170,19 @@ public:
         val_correct.resize(num_pipelines, 0);
         test_correct.resize(num_pipelines, 0);
 
-        
-        
+        //首先确定几个GPU做T、几个GPU做P
+        //做T的GPU之间需要allreduce，做P的GPU之间需要消息传递，P和T的GPU之间也需要消息传递
         subgraph_generator = new MultiDeviceGenerator(full_rep_graph, gnndatum, num_devices);
         subgraph_generator->decoupled_version();
-        subgraph_generator->load_data_T_before_P();
-        
+        subgraph_generator->load_data_T_before_P();//APPNP是先T后P
+        // subgraph_generator->generate_PT_message_offset();//写在了decoupled_version()的最后一行
 
-        
+        // init all communicator
         std::vector<int> arr_(num_devices);
         std::iota(arr_.begin(), arr_.end(), 0);
         NCCL_Communicator *nccl_comm_all = new NCCL_Communicator(num_devices, arr_.data());
 
-        
+        // init NN communicator
         std::vector<int> arr(subgraph_generator->device_subNN_num);
         std::iota(arr.begin(), arr.end(), subgraph_generator->device_num);
         NCCL_Communicator *nccl_comm_NN = new NCCL_Communicator(subgraph_generator->device_subNN_num, arr.data(), subgraph_generator->device_num);
@@ -200,7 +200,7 @@ public:
         }
         
 
-        subgraph_generator->load_data_T_before_P_to_corresponding_device();
+        subgraph_generator->load_data_T_before_P_to_corresponding_device();//APPNP是先T后P
         
         subgraph_generator->init_communicator_all(nccl_comm_all);
 
@@ -230,7 +230,7 @@ public:
         return loss_train;
     }
 
-    long getCorrect(long s, NtsVar &predict, NtsVar &label, NtsVar &mask) { 
+    long getCorrect(long s, NtsVar &predict, NtsVar &label, NtsVar &mask) { // 0 train, //1 eval //2 test
         NtsVar mask_train = mask.eq(s);
         NtsVar all_train =
             predict
@@ -248,12 +248,12 @@ public:
         {
             subgraph->P[i]->reduce_multi_gpu_gradient(subgraph->P[i]->W.grad(), subgraph->device_id, subgraph->cs->stream);
             subgraph->P[i]->learnG_with_decay_Adam();
-            
+            // subgraph->P[i]->learnC2G_with_decay_Adam();
             subgraph->P[i]->next();
         }
     }
     
-    void acc(int type, int epoch, bool log = false)
+    void acc(int type, int epoch, bool log = false)//这个准确率是所有流水线中的正确的
     {
         unsigned correct_num = 0;
         if(type == 0){
@@ -302,7 +302,7 @@ public:
     
     void decoupled_T(DeviceSubStructure *subNN, int pip_id)
     {
-        
+        // std::ofstream out("./log/cora_subNN_" + std::to_string(pip_id) +"+"+ std::to_string(subNN->global_device_id) + ".txt", std::ios_base::out);//for debug
 
         int dev_id = subNN->global_device_id;
         int local_dev_id = subNN->device_id;
@@ -317,48 +317,48 @@ public:
                 return y;
             }, subNN->X[layer], subNN->X[layer]);
 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+                // out << "finish NN OP: " << layer << std::endl;
+                // out << "(out data)GPU ID: " << subNN->X[layer+1].device() << std::endl;
+                // out << "(out data)size: " << subNN->X[layer+1].sizes() << std::endl;
+                // NtsVar X_i_1 = subNN->X[layer+1].to(torch::DeviceType::CPU);
+                // for(int i = 0; i < subNN->owned_vertices; i++)
+                // {
+                //     out << "dst id[" << i + subNN->subdevice_offset[subNN->device_id] << "] embedding: ";
+                //     for(int j = 0; j < X_i_1.size(1); j++)
+                //     {
+                //         out << X_i_1[i].data<float>()[j] << " ";
+                //     }
+                //     out << std::endl;
+                // }
 
         }
         subNN->cs->CUDA_DEVICE_SYNCHRONIZE();
 
-        
-        
+        //send embedding to P device
+        // subNN->send_msg_from_T_to_P_device();
 
     }
     
     void decoupled_P(DeviceSubStructure *subgraph, int embedding_size, int pip_id)
     {
-        
-        
+        //recv data from T device
+        // subgraph->recv_msg_from_T_to_P_device(embedding_size);
 
+        // std::ofstream out("./log/cora_subGraph_" + std::to_string(pip_id) +"+"+ std::to_string(subgraph->global_device_id) + ".txt", std::ios_base::out);//for debug
         
-        
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+            // out << "start Graph OP: 0" << std::endl;
+            // out << "(out data)GPU ID: " << subgraph->X[0].device() << std::endl;
+            // out << "(out data)size: " << subgraph->X[0].sizes() << std::endl;
+            // NtsVar X_layer = subgraph->X[0].to(torch::DeviceType::CPU);
+            // for(int i = 0; i < subgraph->owned_vertices; i++)
+            // {
+            //     out << "dst id[" << i + subgraph->subdevice_offset[subgraph->device_id] << "] embedding: ";
+            //     for(int j = 0; j < X_layer.size(1); j++)
+            //     {
+            //         out << X_layer[i].data<float>()[j] << " ";
+            //     }
+            //     out << std::endl;
+            // }
 
         int dev_id = subgraph->global_device_id;
         int local_dev_id = subgraph->device_id;
@@ -367,21 +367,21 @@ public:
         for(int layer = 0; layer < graph->config->K; layer++)
         {
             subgraph->X[layer + 1] = device_P_ctx[pip_id][local_dev_id]->runGraphOp<nts::op::MultiGPUAllGNNCalcGraphSumOp>
-                                        (subgraph, subgraph->X[layer]);
+                                        (subgraph, subgraph->X[layer]);//先实现一个sum聚合的
 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+                // out << "finish Graph OP: " << layer+1 << std::endl;
+                // out << "(out data)GPU ID: " << subgraph->X[layer+1].device() << std::endl;
+                // out << "(out data)size: " << subgraph->X[layer+1].sizes() << std::endl;
+                // NtsVar X_layer = subgraph->X[layer+1].to(torch::DeviceType::CPU);
+                // for(int i = 0; i < subgraph->owned_vertices; i++)
+                // {
+                //     out << "dst id[" << i + subgraph->subdevice_offset[subgraph->device_id] << "] embedding: ";
+                //     for(int j = 0; j < X_layer.size(1); j++)
+                //     {
+                //         out << X_layer[i].data<float>()[j] << " ";
+                //     }
+                //     out << std::endl;
+                // }
         }
         
         CHECK_CUDA_RESULT(cudaDeviceSynchronize());
@@ -406,7 +406,7 @@ public:
         double NN_t = 0.0;
         NN_t -= get_time();
 
-        
+        //NN Forward
         std::vector<std::thread> NN_device_forward;
         for(int dev = 0; dev < subgraph_generator->device_subNN_num; dev++)
         {
@@ -426,7 +426,7 @@ public:
         double T2P_t = 0.0;
         T2P_t -= get_time();
 
-        
+        //T device embedding transfar to P device
         int embedding_size = subgraph_generator->subNN_queq[0]->X[subgraph_generator->subNN_queq[0]->X.size() - 1].size(1);
         std::vector<std::thread> transfer_thread;
         for(int dev = 0; dev < subgraph_generator->device_subNN_num; dev++)
@@ -453,7 +453,7 @@ public:
         double P_t = 0.0;
         P_t -= get_time();
 
-        
+        //graph forward
         std::vector<std::thread> graph_device_forward;
         for(int dev = 0; dev < subgraph_generator->device_num; dev++)
         {
@@ -471,12 +471,12 @@ public:
         P_t += get_time();
         g_time.push_back(P_t - no_P_time);
 
-        
-        
-        
+        //loss
+        //getcorrect
+        //backward
 
 
-        
+        //P device grad transfar to T device
         int grad_size = subgraph_generator->subgraph_queq[0]->decoupled_mid_grad.size(1);
         std::vector<std::thread> transfer_grad_thread;
         for(int dev = 0; dev < subgraph_generator->device_subNN_num; dev++)
@@ -499,15 +499,15 @@ public:
 
         CHECK_CUDA_RESULT(cudaDeviceSynchronize());
 
-        
+        //NN backward and update
         std::vector<std::thread> NN_device_backward;
         for(int dev = 0; dev < subgraph_generator->device_subNN_num; dev++)
         {
             NN_device_backward.emplace_back([&](int dev_){ 
                 assert(dev_ == subgraph_generator->subNN_queq[dev_]->device_id);      
-                
-                
-                
+                // std::ofstream out("./log/cora_subNN_" + std::to_string(pip_id) +"+"+ 
+                //             std::to_string(subgraph_generator->subNN_queq[dev_]->global_device_id) + ".txt", std::ios_base::out);//for debug             
+                // device_T_ctx[pip_id][dev_]->self_decouple_T_backward(out, false);
                 device_T_ctx[pip_id][dev_]->self_decouple_T_backward(false);
                 
                 Update(subgraph_generator->subNN_queq[dev_]);
@@ -523,7 +523,7 @@ public:
         LOG_INFO("GNNmini::[decoupled.GPU.APPNPimpl] running [%d] Epoches\n", iterations);
         device_T_ctx.resize(num_pipelines);
         device_P_ctx.resize(num_pipelines);
-        
+        //先实现一个pipeline = 1的版本，只需要一个线程即可
         for(int i = 0; i < num_pipelines; i++)
         {
             for(int j = 0; j < subgraph_generator->device_subNN_num; j++)
@@ -559,7 +559,7 @@ public:
                 }
             }
 
-            
+            //forward
             std::vector<std::thread> pipeline_threads;
             for(int pipeline_id = 0; pipeline_id < num_pipelines; pipeline_id++)
             {
@@ -610,22 +610,22 @@ public:
             run_decoupled_version();
         }
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        // else{
+        //     if(num_devices == 0){
+        //         graph->rtminfo->with_cuda = false;
+        //         init_CPU_version();
+        //         CPU_Version();
+        //     }
+        //     else {
+        //         graph->rtminfo->with_cuda = true;
+        //         if(num_devices > 1){
+        //             init_multiGPU_version();
+        //             run_Multi_GPU_Version();
+        //         } else {
+        //             init_singleGPU_version();
+        //         }
+        //     }
+        // }
         
 
     }

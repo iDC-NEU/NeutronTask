@@ -1,4 +1,18 @@
+ /*
+Copyright (c) 2021-2022 Zhenbo Fu, Northeastern University
 
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
 #ifndef MULTIDEVICEGENERATOR_HPP
 #define MICROBATCHGENERATOR_HPP
 
@@ -127,69 +141,12 @@ public:
         subgraph_queq[0]->load_feature(sub_feat);
         subgraph_queq[0]->load_label_mask(sub_label, sub_mask);
     }
-    void read_from_reorder()
-     {
-     std::cout << "edge file path : " << whole_graph->graph_->filename << std::endl;
-     int folder_offset = whole_graph->graph_->filename.find_last_of("//");
-     std::string split_path(whole_graph->graph_->filename, 0, folder_offset);
-     split_path = split_path + "/split_edge/partition.info";
-     std::cout << "split path : " << split_path << std::endl;
-
-     std::ifstream fin;
-     fin.open(split_path.c_str(), std::ios::in);
-     std::vector<VertexId> vtx;
-     if(!fin)
-     {
-     std::cout << "cannot open file" << std::endl;
-     exit(1);
-     return;
-     }
-     std::string line;
-    while(std::getline(fin,line))
-     {
-     int i, vtx_num;
-     std::stringstream ss(line);
-     ss >> i >> vtx_num;
-     std::cout << "vtx num of partition " << i << " " << vtx_num << std::endl;
-     vtx.push_back(vtx_num);
-     }
-    assert(device_num == vtx.size());
-     std::cout << "vtx size : " << vtx.size() << std::endl;
-
-    reorder_column_offset = whole_graph->column_offset;
-     reorder_row_indices = whole_graph->row_indices;
-   reorder_feat = gnndatum->local_feature;
-     reorder_label = gnndatum->local_label;
-    reorder_mask = gnndatum->local_mask;
-
-     auto train_vertices = get_mask_vertices(0);
-     auto val_vertex = get_mask_vertices(1);
-     auto test_vertex = get_mask_vertices(2);
-
-     train_num = train_vertices.size();
-     val_num = val_vertex.size();
-    test_num = test_vertex.size();
-
-     device_offset = new VertexId[vtx.size()+1];
-     device_offset[0] = 0;
-     for(int i = 0; i < vtx.size(); i++)
-     {
-     device_offset[i+1] = device_offset[i] + vtx[i];
-    }
-
-     std::cout << "partition offset : " << device_offset[0];
-     for(int i = 0; i < vtx.size(); i++)
-     {
-     std::cout << " " << device_offset[i+1];
-     }
-     std::cout << std::endl;
-    }
 
     void multi_GPU_version()
     {
-        // graph_partition();//graph partition and set device_offset
-        // reorder_with_partition();
-        read_from_reorder();
+        graph_partition();//graph partition and set device_offset
+        reorder_with_partition();
+        
         // reorder graph tuopu
         // std::cout << "!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
         // for(int i = 0; i < sub_all_vertex_num; i++)
@@ -226,6 +183,9 @@ public:
             std::cout << "finish load feature label mask : " << i << std::endl;
             
         }
+        
+        // debug_partition();
+        // assert(5==0);
     }
 
     void decoupled_version()
@@ -235,7 +195,6 @@ public:
         //这里后续需要一个算法来确定数量
         all_device_num = device_num;
         device_subNN_num = 1;
-        // device_subNN_num = 2;
         device_num = all_device_num - device_subNN_num;
         printf("NN GPU num : %d\n", device_subNN_num);
         printf("Graph GPU num : %d\n", device_num);
@@ -1024,7 +983,24 @@ public:
     void partition_to_chunk()//与delete_partition_dep不同，这里删掉边之后将删掉的边留下来，供日后使用
     {
             // LOG_INFO("1");
-            partition_and_reorder(); //这里注释
+            // partition_and_reorder(); //这里注释
+            read_from_reorder();
+            // LOG_INFO("2");
+        // add by lusz
+        // reorder_column_offset = whole_graph->column_offset;
+        // reorder_row_indices = whole_graph->row_indices;
+        // graph_partition = new MultiDeviceGenerator(whole_graph, gnndatum, pipline_num);
+        // graph_partition->reorder_feat = gnndatum->local_feature;
+        // graph_partition->reorder_label = gnndatum->local_label;
+        // graph_partition->reorder_mask = gnndatum->local_mask;
+        // partition_offset = new VertexId[whole_graph->graph_->config->pipeline_num+1]; // 
+        // int offset, count;
+        // std::string start="/home/lusz/nts_data/reorder";
+        
+        // std::ifstream infile(filename);
+        // while (infile >> offset >> count) {
+        //     nodes[offset] = count;
+        // }
 
         
 

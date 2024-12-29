@@ -12,21 +12,21 @@ public:
   ValueType epsilon;
   ValueType decay_rate;
   ValueType decay_epoch;
-  
+  // graph
   VertexSubset *active;
-  
+  // graph with no edge data
   Graph<Empty> *graph;
-  
-  
+  //std::vector<CSC_segment_pinned *> subgraphs;
+  // NN
   GNNDatum *gnndatum;
   NtsVar L_GT_C;
   NtsVar L_GT_G;
   NtsVar MASK;
-  
+  //GraphOperation *gt;
   PartitionedGraph *partitioned_graph;
-  
+  // Variables
   std::vector<Parameter *> P;
-  
+  // std::vector<NtsVar> X;
   std::vector<NtsVar> X_T;
   std::vector<NtsVar> X_P;
   nts::ctx::NtsContext* ctx;
@@ -58,7 +58,7 @@ public:
     active->fill();
 
     graph->init_gnnctx(graph->config->layer_string);
-    
+    // rtminfo initialize
     graph->init_rtminfo();
     graph->rtminfo->process_local = graph->config->process_local;
     graph->rtminfo->reduce_comm = graph->config->process_local;
@@ -76,7 +76,7 @@ public:
       return nts::op::nts_norm_degree(graph,src, dst);
     },CPU_T,(graph->partitions)>1);
     graph->init_communicatior();
-    
+    //cp = new nts::autodiff::ComputionPath(gt, subgraphs);
     ctx=new nts::ctx::NtsContext();
   }
   void init_nn() {
@@ -91,24 +91,24 @@ public:
     beta2 = 0.999;
     epsilon = 1e-9;
     GNNDatum *gnndatum = new GNNDatum(graph->gnnctx, graph);
-    
+    // gnndatum->random_generate();
     if (0 == graph->config->feature_file.compare("random")) {
       gnndatum->random_generate();
     } else {
       gnndatum->readFeature_Label_Mask(graph->config->feature_file,
                                        graph->config->label_file,
                                        graph->config->mask_file);
-      
-      
-      
+      // gnndatum->readFeature_Label_Mask_OGB(graph->config->feature_file,
+      //                                  graph->config->label_file,
+      //                                  graph->config->mask_file);
     }
 
-    
+    // creating tensor to save Label and Mask
     gnndatum->registLabel(L_GT_C);
     gnndatum->registMask(MASK);
 
-    
-    
+    // initializeing parameter. Creating tensor with shape [layer_size[i],
+    // layer_size[i + 1]]
     for (int i = 0; i < graph->gnnctx->layer_size.size() - 1; i++) {
       P.push_back(new Parameter(graph->gnnctx->layer_size[i],
                                 graph->gnnctx->layer_size[i + 1], alpha, beta1,
@@ -117,8 +117,8 @@ public:
         bn1d.push_back(torch::nn::BatchNorm1d(graph->gnnctx->layer_size[i])); 
     }
 
-    
-    
+    // synchronize parameter with other processes
+    // because we need to guarantee all of workers are using the same model
     for (int i = 0; i < P.size(); i++) {
       P[i]->init_parameter();
       P[i]->set_decay(decay_rate, decay_epoch);
@@ -131,14 +131,14 @@ public:
         {graph->gnnctx->l_v_num, graph->gnnctx->layer_size[0]},
         torch::DeviceType::CPU);
 
-    
-    
-    
-    
-    
-    
-    
-    
+    // X[i] is vertex representation at layer i
+    // for (int i = 0; i < graph->gnnctx->layer_size.size(); i++) {
+    //   NtsVar d;
+    //   X.push_back(d);
+    // }
+    // X[0] is the initial vertex representation. We created it from
+    // local_feature
+    // X[0] = F.set_requires_grad(true);
 
 
     for (int i = 0; i < graph->gnnctx->layer_size.size(); i++) {
@@ -152,7 +152,7 @@ public:
     X_T[0] = F.set_requires_grad(true);
   }
 
-  void Test(long s) { 
+  void Test(long s) { // 0 train, //1 eval //2 test
     NtsVar mask_train = MASK.eq(s);
     NtsVar all_train =
         X_P[graph->config->K]
@@ -185,7 +185,7 @@ public:
   NtsVar vertexForward(NtsVar &a, NtsVar &x) {
     NtsVar y;
     int layer = graph->rtminfo->curr_layer;
-    
+    // nn operation. Here is just a simple matmul. i.e. y = activate(a * w)
     if (layer == 0) {
       a =this->bn1d[layer](a);
       y = torch::relu(P[layer]->forward(a)).set_requires_grad(true);
@@ -193,13 +193,13 @@ public:
       y = P[layer]->forward(a);
       y = y.log_softmax(1);
     }
-    
- 
+    // save the intermediate result for backward propagation
+ //   ctx->op_push(a, y, nts::ctx::NNOP);
     return y;
   }
   void Loss() {
-    
-    
+    //  return torch::nll_loss(a,L_GT_C);
+    // torch::Tensor a = X_P[graph->config->K].log_softmax(1);
     torch::Tensor a = X_P[graph->config->K].log_softmax(-1);
     torch::Tensor mask_train = MASK.eq(0);
     loss = torch::nll_loss(
@@ -211,9 +211,9 @@ public:
 
   void Update() {
     for (int i = 0; i < P.size(); i++) {
-      
+      // accumulate the gradient using all_reduce
       P[i]->all_reduce_to_gradient(P[i]->W.grad().cpu());
-      
+      // update parameters with Adam optimizer
       P[i]->learnC2C_with_decay_Adam();
       P[i]->next();
     }
@@ -223,7 +223,7 @@ public:
   void Forward() {
     graph->rtminfo->forward = true;
     
-    
+    //T Operation 
     for (int i = 0; i < graph->gnnctx->layer_size.size() - 1; i++) {
       graph->rtminfo->curr_layer = i;    
         X_T[i + 1]=ctx->runVertexForward([&](NtsVar n_i,NtsVar v_i){
@@ -241,7 +241,7 @@ public:
 
     X_P[0] = X_T[graph->gnnctx->layer_size.size()-1];
     
-    
+    //P Operation
     for (int i = 0; i < graph->config->K; i++) {
         X_P[i+1]= ctx->runGraphOp<nts::op::ForwardCPUfuseOp>(partitioned_graph,active,X_P[i]);  
     }
@@ -273,23 +273,23 @@ public:
       
       ctx->self_backward();
       Update();
-
+//       ctx->debug();
       if (graph->partition_id == 0)
         std::cout << "Nts::Running.Epoch[" << i_i << "]:loss\t" << loss
                   << std::endl;
     }
     exec_time += get_time();
-
-
-
-
-
+//    std::string str="a10";
+//    at::ArrayRef<at::Dimname>names({at::Dimname::fromSymbol(at::Symbol::dimname(str)),at::Dimname::fromSymbol(at::Symbol::dimname("b10"))});
+//    at::ArrayRef<at::Dimname>names({at::Dimname::fromSymbol(at::Symbol::dimname(str)),at::Dimname::fromSymbol(at::Symbol::dimname("b10"))});
+//    NtsVar s=torch::ones({3,3},names,at::TensorOptions().requires_grad(true));
+//    std::vector<at::Dimname> dim;
     
-
-
-
-
-
+//    dim.push_back(at::Dimname::fromSymbol(at::Symbol::aten("0")));
+//    dim.push_back(at::Dimname::fromSymbol(at::Symbol::aten("1")));
+//    s.get_named_tensor_meta()->set_names(at::NamedTensorMeta::HasNonWildcard,dim);
+//    at::DimnameList::
+//    std::cout<<" "<<s.names()[0]<<" " <<s.names()[1]<<std::endl;
     delete active;
   }
 

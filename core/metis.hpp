@@ -1,4 +1,10 @@
-
+/*
+ * @Author: chency 1013858730@qq.com
+ * @Date: 2022-08-16 16:34:11
+ * @LastEditors: chency 1013858730@qq.com
+ * @LastEditTime: 2022-11-22 17:04:10
+ * @FilePath: /NtsMinibatch/NeutronStarLite-master/core/metis.hpp
+ */
 #ifndef METIS_HPP
 #define METIS_HPP
 #include <assert.h>
@@ -26,16 +32,16 @@ public:
         vweight_.resize(vertices_, 0);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    // void TestPartGraph(PartitionedGraph *partitioned_graph){
+    //     testVertices = partitioned_graph->owned_vertices;
+    //     VertexId* column_offset = new VertexId[partitioned_graph->global_vertices+1];
+    //     memcpy(column_offset, partitioned_graph->column_offset, sizeof(VertexId)*(partitioned_graph->owned_vertices+1));
+    //     std::cout<<"partition id:\t "<<partitioned_graph->partition_id<<"\t\t"<<column_offset[partitioned_graph->owned_vertices]<<"\t\t"<<partitioned_graph->column_offset[partitioned_graph->owned_vertices]<<std::endl;
+    //     for(int i = partitioned_graph->owned_vertices+1; i < partitioned_graph->global_vertices+1; i++){
+    //         column_offset[i] = column_offset[partitioned_graph->owned_vertices];
+    //     }
+    //     SetCSC(column_offset, partitioned_graph->row_indices);
+    // }
 
     void SetCSC(VertexId* column_offset, VertexId* row_indices){
         for(VertexId i = 0; i <vertices_; i++){
@@ -61,15 +67,15 @@ public:
     }
 
     void GetKwayPartition(bool balance = true){
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        // idx_t options[METIS_NOPTIONS];
+        // METIS_SetDefaultOptions(options);
+        // options[METIS_OPTION_NUMBERING] = 0;
+        // idx_t options[METIS_NOPTIONS];
+        // METIS_SetDefaultOptions(options);
+        // options[METIS_OPTION_ONDISK] = 1;
+        // options[METIS_OPTION_NITER] = 1;
+        // options[METIS_OPTION_NIPARTS] = 1;
+        // options[METIS_OPTION_DROPEDGES] = 1;
         int test = -1;
         if(!balance){
             LOG_INFO("No balance KwayPartition Method");
@@ -121,7 +127,7 @@ public:
         SetBatchTrainVertices();
     }
 
-    
+    //sequential partition(=default partition)
     void GetDefaultPartition(int batch_size){
         batchTrainVertices_.resize((trainVerticesId_.size()-1)/batch_size + 1);
         int count = 0;
@@ -131,17 +137,17 @@ public:
                 count++;
             }
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        // std::cout<<"train id\t\t\t"<<std::endl;
+        // for(int i = 0; i < trainVerticesId_.size(); i++){
+        //     std::cout<<trainVerticesId_[i]<<std::endl;
+        // }
+        // std::cout<<"count:\t\t\t"<<count<<std::endl;
+        // for(int i = 0; i < batchTrainVertices_.size(); i++){
+        //     std::cout<<"this is \t"<<i<<"\tsize:\t"<<batchTrainVertices_[i].size()<<std::endl;
+        //     for(int j = 0; j < batchTrainVertices_[i].size(); j++)
+        //         std::cout<<batchTrainVertices_[i][j]<<"\t"<<std::end;
+        //     std::cout<<std::endl;
+        // }
     }
 
     void GetRandomPartition(int batch_size){
@@ -186,17 +192,17 @@ public:
     }
 
     void GetBatchPartition(std::string method, int batch_size, int type){
-        
-        if (type==0){ 
+        //first stage : devide the vertex type of process
+        if (type==0){ //train
             trainVerticesId_ = trainMaskVertex;
-        }else if (type==1) 
+        }else if (type==1) //val
         {
             trainVerticesId_ = valMaskVertex;
-        }else if (type==2)  
+        }else if (type==2)  //test
         { 
             trainVerticesId_ = testMaskVertex;
         }
-        
+        //second stage: get specific partition method
         if(0 == method.compare("Seq")){
             LOG_INFO("Sequential Method");
             GetDefaultPartition(batch_size);
@@ -220,22 +226,22 @@ public:
     }
 
     void SetBatchTrainVertices(){
-        
+        // #pragma omp parallel for  //may be can't parallel do 
         for(int i = 0; i < part_.size(); i++){
             if(!is_exist(trainVerticesId_, i)) continue;
             batchTrainVertices_[part_[i]].push_back(i);
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        // for(int i = 0; i < testVertices; i++){
+        //     if(!is_exist(trainVerticesId_, i)) continue;
+        //     batchTrainVertices_[part_[i]].push_back(i);
+        // }
+        // for(int i = 0; i < batchTrainVertices_.size(); i++){
+        //     std::cout<<"batch train:\t"<<i<<"\tsize:\t"<<batchTrainVertices_[i].size()<<std::endl;
+        //     for(int j = 0; j < batchTrainVertices_[i].size(); j++){
+        //         std::cout<<batchTrainVertices_[i][j]<<std::endl;
+        //     }
+        //     std::cout<<std::endl;
+        // }
     }
 
     /**
@@ -313,15 +319,15 @@ public:
     }
 
     std::vector<idx_t>& GetPartitionResult(){
-        
-        
-        
-        
-        
+        // std::cout << "metis result size :" << part_.size() << std::endl << "metis result : ";
+        // for (int i = 0; i < part_.size(); i++){
+        //     std::cout << part_[i] << " ";
+        // }
+        // std::cout << std::endl;
         return part_;
     }
 
-    
+    // add by fuzb
     void Graph_Partition_With_Multi_Dim_Balance(int dim){
         int test = -1;
         set_multi_dimension_vertices_weight(dim);
@@ -358,34 +364,34 @@ public:
     void set_degree()
     {
         degree_.resize(vertices_, 0);
-        #pragma omp parallel for 
+        #pragma omp parallel for //注释掉多线程是为了测试输出
         for(int i = 0; i < vertices_; i++)
         {
             degree_[i] = xadj_[i+1] - xadj_[i];
-            
+            // std::cout << "id[" << i <<"]degree: " << degree_[i] << std::endl;
         }
     }
 
     void set_pagerange_score(double* pr)
     {
         pagerank_score_.resize(vertices_, 0);
-        #pragma omp parallel for 
+        #pragma omp parallel for //注释掉多线程是为了测试输出
         for(int i = 0; i < vertices_; i++)
         {
-            
+            // std::cout << "pr[" << i << "]: " << pr[i] << std::endl;
             pagerank_score_[i] = round(pr[i] * 100);
-            
+            // std::cout << "pagerank_score: " << pagerank_score_[i] << std::endl;
         }
     }
 
     void set_multi_dimension_vertices_weight(int dim){
-        if(dim == 10)
+        if(dim == 10)// dgl的实现方式
         {
             dim = 4;
             balance_constraint_ = 4;
             vweight_.resize(vertices_ * dim, 0);
             
-            #pragma omp parallel for 
+            #pragma omp parallel for //注释掉多线程是为了测试输出
             for(int i = 0; i < dim * vertices_; i = i + dim)
             {
                 int vertexId = i/dim;
@@ -399,25 +405,25 @@ public:
                     vweight_[i + 1] = 1;
                     vweight_[i + 3] = degree_[vertexId];
                 }
-                
-                
-                
-                
-                
-                
+                // 输出权重，看看啥玩意
+                // std::cout << "dgl: id[" << vertexId  << "]weight: ";
+                // for(int j = 0; j < dim; j++){
+                //     std::cout << vweight_[i+j] << " ";
+                // }
+                // std::cout << std::endl;
             }
         }
-        else
+        else//nts的权重
         {
             int flag = dim;
-            if(dim == 5)
+            if(dim == 5)//第四维换成pagerank
             {
                 dim = 4;
             }
-            balance_constraint_ = dim;
+            balance_constraint_ = dim;//set dim
             vweight_.resize(vertices_ * dim, 0);
-            
-            #pragma omp parallel for 
+            //the weight of train vertices
+            #pragma omp parallel for //注释掉多线程是为了测试输出
             for(int i = 0; i < dim * vertices_; i = i + dim){
                 int vertexId = i/dim;
                 if(is_exist(trainVerticesId_, vertexId)){
@@ -433,20 +439,20 @@ public:
                 }
                 if(dim == 2)
                     vweight_[i + 1] = degree_[vertexId];
-                
-                
+                // else if(dim == 3)
+                //     vweight_[i + 2] = degree_[vertexId];
                 else if(flag == 4)
                     vweight_[i + 3] = degree_[vertexId];
                 else if(flag == 5)
                     vweight_[i + 3] = pagerank_score_[vertexId];
 
-                
-                
-                
-                
-                
+                // std::cout << "id[" << vertexId  << "]weight: ";
+                // for(int j = 0; j < dim; j++){
+                //     std::cout << vweight_[i+j] << " ";
+                // }
+                // std::cout << std::endl;
             }
-            
+            // std::cout << "vweight_.size(): " << vweight_.size() << std::endl;
         }
     }
 
@@ -468,7 +474,7 @@ private:
 
   idx_t testVertices;
 
-  
+  //add by fuzb
   std::vector<idx_t> degree_;
   std::vector<idx_t> pagerank_score_;
   std::vector<uint32_t> valVerticesId_;

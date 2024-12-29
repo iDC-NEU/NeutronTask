@@ -1,4 +1,10 @@
-
+/*
+ * propagate.h
+ *
+ *  Created on: Dec 3, 2019
+ *      Author: wangqg
+ * TODO :cub support and shared memory optimization
+ */
 
 #ifndef NTSCUDATRANSFERKERNEL_CUH
 #define NTSCUDATRANSFERKERNEL_CUH

@@ -1,4 +1,18 @@
+/*
+Copyright (c) 2023-2024 Zhenbo Fu, Northeastern University
 
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
 #ifndef DEVICESUBSTRUCTURE_HPP
 #define DEVICESUBSTRUCTURE_HPP
 #include <vector>
@@ -41,6 +55,13 @@ public:
     VertexId *row_indices_gpu;
     VertexId *row_offset_gpu;     // VertexNumber
     VertexId *column_indices_gpu; // edge_size
+
+
+    VertexId *column_offset_gpu0; // VertexNumber
+    VertexId *row_indices_gpu0;
+    VertexId *row_offset_gpu0;     // VertexNumber
+    VertexId *column_indices_gpu0; // edge_size
+
 
     VertexId* mirror_vertices_gpu;
 
@@ -166,16 +187,38 @@ public:
         row_indices_gpu = (VertexId *)cudaMallocGPU(edge_size * sizeof(VertexId), cuda_stream);
         edge_weight_forward_gpu = (ValueType *)cudaMallocGPU(edge_size * sizeof(ValueType), cuda_stream);
         edge_weight_backward_gpu = (ValueType *)cudaMallocGPU(edge_size * sizeof(ValueType), cuda_stream);
-
+        // LOG_INFO("1111");
         move_bytes_in(column_offset_gpu, column_offset, (batch_size_forward + 1) * sizeof(VertexId));
+        // LOG_INFO("2222");
         move_bytes_in(row_offset_gpu, row_offset, (batch_size_backward + 1) * sizeof(VertexId));
+        // LOG_INFO("3333");
         move_bytes_in(column_indices_gpu, column_indices, edge_size * sizeof(VertexId));
+        // LOG_INFO("4444");
         move_bytes_in(row_indices_gpu, row_indices, edge_size * sizeof(VertexId));
+        // LOG_INFO("5555");
         move_bytes_in(edge_weight_forward_gpu, edge_weight_forward, edge_size * sizeof(ValueType));
+        // LOG_INFO("6666");
         move_bytes_in(edge_weight_backward_gpu, edge_weight_backward, edge_size * sizeof(ValueType));
+        // LOG_INFO("7777");
     }
 
+    void load_graph_to_GPU0(cudaStream_t cuda_stream)
+    {
+        cudaSetUsingDevice(0);
+        column_offset_gpu0 = (VertexId *)cudaMallocGPU((batch_size_forward + 1) * sizeof(VertexId), cuda_stream);
+        // row_offset_gpu0 = (VertexId *)cudaMallocGPU((batch_size_backward + 1) * sizeof(VertexId), cuda_stream);
+        // column_indices_gpu0 = (VertexId *)cudaMallocGPU(edge_size * sizeof(VertexId), cuda_stream);
+        row_indices_gpu0 = (VertexId *)cudaMallocGPU(edge_size * sizeof(VertexId), cuda_stream);
+
+        move_bytes_in(column_offset_gpu0, column_offset, (batch_size_forward + 1) * sizeof(VertexId));
+        // move_bytes_in(row_offset_gpu0, row_offset, (batch_size_backward + 1) * sizeof(VertexId));
+        // move_bytes_in(column_indices_gpu0, column_indices, edge_size * sizeof(VertexId));
+        move_bytes_in(row_indices_gpu0, row_indices, edge_size * sizeof(VertexId));
+    }
+
+    // add by lusz
     void free_graph_from_per_gpu(cudaStream_t cuda_stream){
+        //(VertexId *)可能要转回来
         cudaFreeGPU(column_offset_gpu,cuda_stream);
         cudaFreeGPU(row_offset_gpu,cuda_stream);
         cudaFreeGPU(column_indices_gpu,cuda_stream);
@@ -771,11 +814,10 @@ public:
             {
                 int trigger_device = step;
                 nccl_graph_comm->set_current_send_device(trigger_device);
-                // LOG_INFO("1");
-                if(trigger_device != device_id) // 本地？
+
+                if(trigger_device != device_id)
                 {//full graph训练， 不需要转到本地的buffer，这是因为graph_chunks[device_id]->send_vtx.size() == owned_vertices
-                    // std::cout<<"device_id trigger_id size"<<device_id<<' '<<trigger_device<<' '<<graph_chunks[trigger_device]->mirror_vertices.size()<<std::endl;
-                    const auto &send_vtx_cpu = graph_chunks[trigger_device]->mirror_vertices;//mirror_vertices的size,
+                    const auto &send_vtx_cpu = graph_chunks[trigger_device]->mirror_vertices;
 
                     // const auto &send_vtx = graph_chunks[trigger_device]->mirror_vertices_gpu; //不传vtx id的话就用不到这个
         
@@ -815,8 +857,17 @@ public:
             nccl_graph_comm->point_to_point();
             cs->CUDA_DEVICE_SYNCHRONIZE();
 
-            double gpus_aggregate_time = 0.0;
-            gpus_aggregate_time-= get_time();
+            // p2p_time += get_time();
+            // std::cout << "p2p time from g comp: " << p2p_time << std::endl;
+            // nccl_graph_comm->comm_only_embedding_debug(); // debug recv buffer's info
+
+            // std::cout << "finish point to point" << std::endl;
+            
+            //3-stage 
+            // std::ofstream out("./log/cora_receive_info_" + std::to_string(device_id) + ".txt", std::ios_base::out);//for debug
+            // double agg_time = 0.0;
+            // agg_time -= get_time();
+
             for(int step = 0; step < device_num; step++)
             {
                 VertexId trigger_device = -1;
@@ -842,12 +893,50 @@ public:
                     graph_chunks[trigger_device]->source_vertices.size(), graph_chunks[trigger_device]->edge_size,//for debug
                     forword_batch_size, embedding_size, index_gpu, graph->rtminfo->with_weight
                 );
+                // cs->Gather_By_Dst_From_Src_with_index_spmm(
+                //     source_info_gpu, f_output_gpu, weight_gpu,
+                //     row_indi_gpu, col_offset_gpu, global_vertices,
+                //     src_start, src_end, dst_start, dst_end,
+                //     graph_chunks[trigger_device]->source_vertices.size(), graph_chunks[trigger_device]->edge_size,//for debug
+                //     global_vertices, embedding_size, index_gpu, graph->rtminfo->with_weight
+                // );
+                // CHECK_CUDA_RESULT(cudaStreamSynchronize(cs->stream));
 
+                // debug
+                // std::ofstream out("./log/cora_edge_weight" + std::to_string(device_id) + ".txt", std::ios_base::out);//for debug
+                // VertexId *col_offset = graph_chunks[trigger_device]->column_offset;
+                // VertexId *row_indi = graph_chunks[trigger_device]->row_indices;
+                // ValueType *weight = graph_chunks[trigger_device]->edge_weight_forward;
+                // VertexId *index = graph_chunks[trigger_device]->forward_message_index;
+                // ValueType * source_info = (ValueType *)malloc(sizeof(ValueType)*
+                //                                     graph_chunks[trigger_device]->source_vertices.size()*embedding_size);
+                // CHECK_CUDA_RESULT(cudaMemcpy(source_info, source_info_gpu, 
+                //                             size_of_msg(embedding_size) * graph_chunks[trigger_device]->source_vertices.size(),
+                //                             cudaMemcpyDeviceToHost));
+                // out << "------------------------------------------------------------------------------trigger device: " << trigger_device << std::endl;
+                // for(VertexId i = 0; i < 2; i++)
+                // {
+                //     for(VertexId j = col_offset[i]; j < col_offset[i+1]; j++)
+                //     {
+                //         out << "dst[" << i + dst_start << "] : ";
+                //         int src = row_indi[j];
+                //         int idx = index[src - src_start];
+                //         out << "src[" << src << "] index[" << idx;
+                //         out << "] weight[" << weight[j] << "] " << "feat: ";
+                //         for(int k = 0 ; k < embedding_size; k++)
+                //         {
+                //             out << source_info[idx*embedding_size + k] << " ";
+                //         }
+                //         out << std::endl;
+                //         assert(idx>=0);
+                //         assert(idx< graph_chunks[trigger_device]->source_vertices.size());
+                //     }
+                // }
+                
+                // sleep(5);
             }
-            CHECK_CUDA_RESULT(cudaDeviceSynchronize());
+
             cs->CUDA_DEVICE_SYNCHRONIZE();
-            gpus_aggregate_time+= get_time();
-            std::cout << "gpus_aggregate_time: " << gpus_aggregate_time << std::endl;
             // agg_time += get_time();
             // std::cout << "agg time from g comp: " << agg_time << std::endl;
         }
@@ -860,9 +949,12 @@ public:
     void compute_and_sync_backward(ValueType *f_input_gpu, int grad_size,  ValueType *f_output_gpu)
     {
         nccl_graph_comm->init_nccl_layer_all_full_graph(grad_size, sendsource);
+        // std::ofstream out("./log/cora_receive_info_" + std::to_string(device_id) + ".txt", std::ios_base::out);//for debug
+
+        // out << "-----------------start graph backward : " << std::endl;
 
         {
-
+            //1-stage compute grad to source and put source to buffer
             for(int step = 0; step < device_num; step++)
             {
                 int trigger_device = (step + 1 + device_id) % device_num;
@@ -882,6 +974,7 @@ public:
 
                 VertexId backward_batch_size = graph_chunks[trigger_device]->batch_size_backward;
 
+                // out << "start gather by src from dst [trigger_device]: " << trigger_device << std::endl;
 
                 cs->Gather_By_Src_From_Dst_with_index(
                     f_input_gpu, source_embedding, weight_gpu, 
@@ -893,7 +986,21 @@ public:
 
                 cs->CUDA_DEVICE_SYNCHRONIZE();
                 
-                   
+                    //debug
+                    // ValueType *source_embedding_cpu = (ValueType*)malloc(
+                    //                 sizeof(ValueType) * grad_size * graph_chunks[trigger_device]->source_vertices.size());
+                    // CHECK_CUDA_RESULT(cudaMemcpy(source_embedding_cpu, source_embedding, 
+                    //                         size_of_msg(grad_size) * graph_chunks[trigger_device]->source_vertices.size(),
+                    //                         cudaMemcpyDeviceToHost));
+                    // for(int i = 0; i < graph_chunks[trigger_device]->source_vertices.size(); i++)
+                    // {
+                    //     out << "src id[" << graph_chunks[trigger_device]->source_vertices[i] << "] grad : ";
+                    //     for(int j = 0; j < grad_size; j++)
+                    //     {
+                    //         out << j << ":" << source_embedding_cpu[i*grad_size + j] << " ";
+                    //     }
+                    //     out << std::endl;
+                    // }
 
                 nccl_graph_comm->set_current_send_device(trigger_device);
 
@@ -915,9 +1022,10 @@ public:
                 cudaFreeGPU(source_embedding, cs->stream);
             }
 
-
+            //2-stage send and receive grad
             nccl_graph_comm->point_to_point();
-
+            // nccl_graph_comm->comm_only_embedding_debug(); // debug recv buffer's info
+            // out << "finish test commm grad" << std::endl;
 
             cudaDeviceSynchronize();
 
@@ -979,7 +1087,10 @@ public:
         nccl_graph_comm->init_nccl_layer_all_full_graph(embedding_size, sendmirror);
 
         {
-
+            //1-stage
+            //put data to send buffer
+            //第一点，这里后期需要优化，使用SpMM需要将本地顶点的feature广播到其他分区去。而不是现在这种，现在是错的，不能多卡，只能单卡
+            //第二点，这里是full graph训练，给本地发送的时候不需要转到本地的buffer，直接帮忙存一下指针就行
             #pragma omp parallel for
             for(int step = 0; step < device_num; step++)
             {
@@ -987,9 +1098,17 @@ public:
                 nccl_graph_comm->set_current_send_device(trigger_device);
 
                 if(trigger_device != device_id)
-                {
+                {//full graph训练， 不需要转到本地的buffer，这是因为graph_chunks[device_id]->send_vtx.size() == owned_vertices
+                    // const auto &send_vtx_cpu = graph_chunks[trigger_device]->mirror_vertices;
 
-                    std::cout<<"device_id trigger_divice size"<<device_id<<' '<<trigger_device<<' '<<graph_chunks[trigger_device]->mirror_vertices.size()<<std::endl;
+                    // VertexId dst_start = graph_chunks[trigger_device]->dst_range[0];
+                    // VertexId dst_end = graph_chunks[trigger_device]->dst_range[1];
+
+                    // for(int i = 0; i < send_vtx_cpu.size(); i++)
+                    // {
+                    //     VertexId local_mirror = send_vtx_cpu[i] - dst_start;
+                    //     nccl_graph_comm->emit_buffer_only_embedding(f_input_gpu+local_mirror*embedding_size, i);
+                    // }
                     nccl_graph_comm->emit_buffer_only_embedding(f_input_gpu, 0, graph_chunks[trigger_device]->mirror_vertices.size());
                 }
                 else
@@ -1002,10 +1121,14 @@ public:
 
             cs->CUDA_DEVICE_SYNCHRONIZE();
 
-
+            //2-stage send and receive
+            //后期需要优化，在send buffer之前开启线程追踪send、recv queue的情况，一有东西直接发送
+            //这样可以将2-stage去掉
 
             nccl_graph_comm->point_to_point();
             cs->CUDA_DEVICE_SYNCHRONIZE();
+            
+            //3-stage compute with SpMM
 
             for(int step = 0; step < device_num; step++)
             {
@@ -1041,11 +1164,16 @@ public:
 
     }
 
-
+    //反向的SpMM可以使用CSR直接干就完了。// 累加结果！！！
     void compute_and_sync_backward_SpMM(ValueType *f_input_gpu, int grad_size,  ValueType *f_output_gpu)
     {
         nccl_graph_comm->init_nccl_layer_all_full_graph(grad_size, sendsource);
+        // std::ofstream out("./log/cora_receive_info_" + std::to_string(device_id) + ".txt", std::ios_base::out);//for debug
 
+        // out << "-----------------start graph backward : " << std::endl;
+
+        {
+            //1-stage compute grad to source and put source to buffer
             for(int step = 0; step < device_num; step++)
             {
                 int trigger_device = (step + 1 + device_id) % device_num;
@@ -1065,7 +1193,7 @@ public:
 
                 VertexId backward_batch_size = graph_chunks[trigger_device]->batch_size_backward;
 
-
+                // out << "start gather by src from dst [trigger_device]: " << trigger_device << std::endl;
 
                 // cs->Gather_By_Src_From_Dst_with_index(
                 //     f_input_gpu, source_embedding, weight_gpu, 
@@ -1085,13 +1213,35 @@ public:
 
                 cs->CUDA_DEVICE_SYNCHRONIZE();
                 
-
+                    //debug
+                    // ValueType *source_embedding_cpu = (ValueType*)malloc(
+                    //                 sizeof(ValueType) * grad_size * graph_chunks[trigger_device]->source_vertices.size());
+                    // CHECK_CUDA_RESULT(cudaMemcpy(source_embedding_cpu, source_embedding, 
+                    //                         size_of_msg(grad_size) * graph_chunks[trigger_device]->source_vertices.size(),
+                    //                         cudaMemcpyDeviceToHost));
+                    // for(int i = 0; i < graph_chunks[trigger_device]->source_vertices.size(); i++)
+                    // {
+                    //     out << "src id[" << graph_chunks[trigger_device]->source_vertices[i] << "] grad : ";
+                    //     for(int j = 0; j < grad_size; j++)
+                    //     {
+                    //         out << j << ":" << source_embedding_cpu[i*grad_size + j] << " ";
+                    //     }
+                    //     out << std::endl;
+                    // }
 
                 nccl_graph_comm->set_current_send_device(trigger_device);
 
                 if(trigger_device != device_id)
                 {
+                    // const auto &send_vtx_cpu = graph_chunks[trigger_device]->source_vertices;
 
+                    // for(int i = 0; i < send_vtx_cpu.size(); i++)
+                    // {
+                    //     VertexId local_source = send_vtx_cpu[i] - src_start;
+                    //     assert(i == graph_chunks[trigger_device]->forward_message_index[local_source]);
+
+                    //     nccl_graph_comm->emit_buffer_only_embedding(source_embedding + i * grad_size, i);
+                    // }
                     nccl_graph_comm->emit_buffer_only_embedding(f_input_gpu, 0, graph_chunks[trigger_device]->source_vertices.size());
                 } else {
                     nccl_graph_comm->store_input_full_graph(f_input_gpu);
@@ -1119,6 +1269,37 @@ public:
                     source_info_gpu, f_output_gpu, graph_chunks[trigger_device]->mirror_vertices.size(),
                     grad_size, index
                 );
+                    //debug
+                    // ValueType *source_embedding_cpu = (ValueType*)malloc(
+                    //                 sizeof(ValueType) * grad_size * graph_chunks[trigger_device]->mirror_vertices.size());
+                    // CHECK_CUDA_RESULT(cudaMemcpy(source_embedding_cpu, source_info_gpu, 
+                    //                         size_of_msg(grad_size) * graph_chunks[trigger_device]->mirror_vertices.size(),
+                    //                         cudaMemcpyDeviceToHost));
+                    // out << "----------------trigger device : " << trigger_device << std::endl;
+                    // for(int i = 0; i < graph_chunks[trigger_device]->mirror_vertices.size(); i++)
+                    // {
+                    //     out << "dst id[" << graph_chunks[trigger_device]->mirror_vertices[i] << "] grad : ";
+                    //     for(int j = 0; j < grad_size; j++)
+                    //     {
+                    //         out << j << ":" << source_embedding_cpu[i*grad_size + j] << " ";
+                    //     }
+                    //     out << std::endl;
+                    // }
+                    // ValueType *f_output_cpu = (ValueType*)malloc(
+                    // sizeof(ValueType) * grad_size * owned_vertices);
+                    // CHECK_CUDA_RESULT(cudaMemcpy(f_output_cpu, f_output_gpu, 
+                    //                         size_of_msg(grad_size) *owned_vertices,
+                    //                         cudaMemcpyDeviceToHost));
+                    // out << "----------------step : " << step << std::endl;
+                    // for(int i = 0; i < owned_vertices; i++)
+                    // {
+                    //     out << "merge dst id[" << i + subdevice_offset[device_id] << "] grad : ";
+                    //     for(int j = 0; j < grad_size; j++)
+                    //     {
+                    //         out << j << ":" << f_output_cpu[i*grad_size + j] << " ";
+                    //     }
+                    //     out << std::endl;
+                    // }
             }
         }
         
@@ -1175,9 +1356,16 @@ public:
                 nccl_graph_comm->broadcast(f_input_gpu, source_info_gpu, embedding_size, owned_vertices, step);
                 nccl_graph_comm->debug_broadcast(f_input_gpu, src_num, step);
 
+                // cs->Gather_By_Dst_From_Src_with_index_spmm(
+                //     source_info_gpu, f_output_gpu, weight_gpu,
+                //     row_indi_gpu, col_offset_gpu, src_end - src_start,
+                //     src_start, src_end, dst_start, dst_end,
+                //     graph_chunks[trigger_device]->source_vertices.size(), graph_chunks[trigger_device]->edge_size,//for debug
+                //     forword_batch_size, embedding_size, index_gpu, graph->rtminfo->with_weight
+                // );
             }
 
-            // sleep(5);
+            sleep(5);
             assert(false);
 
             cs->CUDA_DEVICE_SYNCHRONIZE();
@@ -1435,6 +1623,7 @@ class GraphChunk
 {
 public:
     Cuda_Stream* cs;
+    Cuda_Stream* cs0;
     at::cuda::CUDAStream* ts;
 
     //用来生成ChunkDep
@@ -1469,6 +1658,7 @@ public:
     int K;
     std::vector<NtsVar> X_P;
     std::vector<NtsVar> X_PB;
+    // add by lusz
     NtsVar X_P_APPNP;
     int flag; //第一次SPMM保存
 
@@ -1643,6 +1833,14 @@ public:
                             c10::Device(at::DeviceType::CUDA, gpu_id),
                             reinterpret_cast<int64_t>(cuda_stream)));
         nccl_comm = nccl_comm_;
+
+
+        cudaSetUsingDevice(0);
+        cudaStream_t cuda_stream0;
+        cudaStreamCreateWithFlags(&cuda_stream0, cudaStreamNonBlocking);
+        cs0 = new Cuda_Stream();
+        cs0->setNewStream(cuda_stream0);
+
     }
     
     void load_feat_label_mask(ValueType *reorder_feat, long *reorder_label, int *reorder_mask)
@@ -1669,8 +1867,36 @@ public:
             // LOG_INFO("X_T.size():%d",X_T.size());
         }
         X_T[0] = feature.cuda().set_requires_grad(true);
+        // CHECK_CUDA_RESULT (cudaDeviceSynchronize())
         // LOG_INFO("X_T.size():%d",X_T.size());
         // LOG_INFO("end load T");
+    }
+
+    void load_graph_to_P_gpu_GAT(int K_)
+    {
+        // LOG_INFO("1");
+        cudaSetUsingDevice(gpu_id);
+        label_gpu = label.cuda();
+        mask_gpu = mask.cuda();
+        K = K_;
+        // LOG_INFO("2");
+        for(int i = 0; i < K + 1; i++)
+        {
+            NtsVar d;
+            X_P.push_back(d);
+            X_PB.push_back(d);
+        }
+        // LOG_INFO("3");
+        for(int j = 0; j < graph_topo.size(); j++)
+        {
+            // LOG_INFO("4");
+            cudaSetUsingDevice(gpu_id);
+            graph_topo[j]->load_graph_tp_per_gpu(cs->stream);
+            // LOG_INFO("5");
+            graph_topo[j]->load_graph_to_GPU0(cs0->stream);
+            // LOG_INFO("6");
+        }
+        // LOG_INFO("4");
     }
 
     void load_graph_to_P_gpu(int K_)
@@ -1690,6 +1916,8 @@ public:
             graph_topo[j]->load_graph_tp_per_gpu(cs->stream);
         }
     }
+    
+    // add by lusz
     void free_feat_from_gpu0(){
         cudaSetUsingDevice(0);
         for(int i = 0; i < graph->gnnctx->layer_size.size(); i++)
@@ -1698,6 +1926,8 @@ public:
         }
         // X_T[0] = feature.cuda().set_requires_grad(true);
     }
+
+    // add by lusz
     void free_graph_from_P_gpu(){
         // LOG_INFO("1");
         cudaSetUsingDevice(gpu_id);
@@ -1705,7 +1935,11 @@ public:
         // free(mask_gpu.data_ptr());
         label_gpu.resize_(at::IntArrayRef{0});
         mask_gpu.resize_(at::IntArrayRef{0});
-
+        // free(K.data_ptr());
+        // label_gpu.reset();
+        // mask_gpu.reset();
+        // LOG_INFO("2");
+        // cudaFreeGPU(K,cs->stream);
         for(int i = 0; i < K + 1; i++)
         {
             X_P.pop_back();
@@ -1766,6 +2000,7 @@ public:
 
             cs->CUDA_DEVICE_SYNCHRONIZE();
             
+            // add by lusz
             if(graph->config->alpha!=0){
                 //APPNP
                 // LOG_INFO("enter if");
@@ -1837,7 +2072,72 @@ public:
         // std::cout << "X_TB device: " << X_TB.device() << std::endl << std::endl;
     }
 
+    NtsVar ScatterSrc(NtsVar input)
+    {
+        cudaSetUsingDevice(0);
+        CHECK_CUDA_RESULT(cudaDeviceSynchronize());
+        int feature_size = input.size(1);
+        ValueType *f_input = input.packed_accessor<ValueType, 2>().data();
+        NtsVar output = graph->Nts->NewKeyTensor({owned_edges, feature_size});
+        ValueType *f_output = output.packed_accessor<ValueType, 2>().data();
     
+        cs0->Scatter_Src_to_Edge(f_output,f_input,
+            graph_topo[chunk_id]->row_indices_gpu0,graph_topo[chunk_id]->column_offset_gpu0,
+            owned_vertices,feature_size); 
+
+        cs0->CUDA_DEVICE_SYNCHRONIZE();
+
+        // std::cout << "src output size : " << output.sizes() << "output sum: " << output.abs().sum() << std::endl;
+
+        return output;
+    }    
+
+
+    NtsVar ScatterDst(NtsVar input)
+    {
+        cudaSetUsingDevice(0);
+        CHECK_CUDA_RESULT(cudaDeviceSynchronize());
+        int feature_size = input.size(1);
+        ValueType *f_input = input.packed_accessor<ValueType, 2>().data();
+        NtsVar output = graph->Nts->NewKeyTensor({owned_edges, feature_size});
+        ValueType *f_output = output.packed_accessor<ValueType, 2>().data();
+    
+        cs0->Scatter_Dst_to_Edge(f_output,f_input,
+            graph_topo[chunk_id]->row_indices_gpu0,graph_topo[chunk_id]->column_offset_gpu0,
+            owned_vertices,feature_size); 
+
+       
+        cs0->CUDA_DEVICE_SYNCHRONIZE();
+
+        // std::cout << "dst output size : " << output.sizes() << "output sum: " << output.abs().sum() << std::endl;
+
+        return output;
+    }  
+
+    NtsVar edge_softmax(NtsVar f_input)
+    {
+        cudaSetUsingDevice(0);
+        CHECK_CUDA_RESULT(cudaDeviceSynchronize());
+        int feature_size = f_input.size(1);
+        NtsVar f_output=graph->Nts->NewKeyTensor({owned_edges, 
+                    feature_size},torch::DeviceType::CUDA);
+        NtsVar IntermediateResult=graph->Nts->NewKeyTensor({owned_edges, 
+                    feature_size},torch::DeviceType::CUDA);
+        ValueType *f_input_buffer =
+            graph->Nts->getWritableBuffer(f_input, torch::DeviceType::CUDA);
+        ValueType *f_output_buffer =
+            graph->Nts->getWritableBuffer(f_output, torch::DeviceType::CUDA);
+        ValueType *f_cache_buffer =
+            graph->Nts->getWritableBuffer(IntermediateResult, torch::DeviceType::CUDA);  
+        //LOG_INFO("owned_mirrors (%d)",partitioned_graph_->owned_mirrors);
+
+        cs0->Edge_Softmax_Forward_Block(f_output_buffer,f_input_buffer,
+                f_cache_buffer,
+                graph_topo[chunk_id]->row_indices_gpu0,graph_topo[chunk_id]->column_offset_gpu0,
+                owned_vertices,feature_size);
+        cs0->CUDA_DEVICE_SYNCHRONIZE();
+        return f_output;
+    }
     
     void debug_X()
     {

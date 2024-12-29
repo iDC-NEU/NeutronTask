@@ -57,7 +57,7 @@ void* cudaMallocGPU(long size_of_bytes){
 #endif  
 }
 
-
+//add by fuzb
 void* cudaMallocGPU(long size_of_bytes, cudaStream_t cuda_stream){
 #if CUDA_ENABLE
        void *data=NULL;
@@ -81,7 +81,7 @@ void cudaFreeGPU(void * data, cudaStream_t cuda_stream)
 #endif 
 }
 
-
+//add by fuzb
 void cudaSetUsingDevice(int device_id){
 #if CUDA_ENABLE
     CHECK_CUDA_RESULT(cudaSetDevice(device_id));
@@ -91,7 +91,7 @@ void cudaSetUsingDevice(int device_id){
 #endif
 }
 
-
+//add by fuzb
 void Cuda_Stream::setNewStream(cudaStream_t cudaStream) {
 #if CUDA_ENABLE
     CHECK_CUDA_RESULT(cudaStreamDestroy(stream));
@@ -231,7 +231,7 @@ void Cuda_Stream::Gather_By_Dst_From_Src(float* input,float* output,float* weigh
         
 }
 
-
+//add by fuzb
 void Cuda_Stream::Gather_By_Dst_From_Src_with_index(float* input,float* output,float* weight_forward,//data 
         VertexId_CUDA* row_indices,VertexId_CUDA *column_offset,//graph
         VertexId_CUDA src_start, VertexId_CUDA src_end,
@@ -258,7 +258,7 @@ void Cuda_Stream::Gather_By_Dst_From_Src_with_index(float* input,float* output,f
         
 }
 
-
+//add by fuzb
 void Cuda_Stream::Gather_By_Dst_From_Src_with_index_spmm(float* input,float* output,float* weight_forward,//data 
         VertexId_CUDA* row_indices,VertexId_CUDA *column_offset, VertexId_CUDA chunk_range_num,//graph
         VertexId_CUDA src_start, VertexId_CUDA src_end,
@@ -321,7 +321,7 @@ void Cuda_Stream::Gather_By_Dst_From_Src_with_index_spmm(float* input,float* out
         
 }
 
-
+//add by fuzb
 void Cuda_Stream::spmm_csc(float* input,float* output,float* weight_forward,//data 
         VertexId_CUDA* row_indices,VertexId_CUDA *column_offset, VertexId_CUDA colum_num,//graph
         VertexId_CUDA src_start, VertexId_CUDA src_end,
@@ -454,6 +454,8 @@ void Cuda_Stream::spmm_csr(float* input,float* output,float* weight_forward,//da
 
 }
 
+
+//add by lusz
 void Cuda_Stream::Gather_By_Src_From_Dst_with_index_spmm(float* input, float* output, float* weight_backward, // data 
         VertexId_CUDA* colum_indices, VertexId_CUDA* row_offset,VertexId_CUDA row_num, // graph
         VertexId_CUDA src_start, VertexId_CUDA src_end,
@@ -526,7 +528,7 @@ void Cuda_Stream::Gather_By_Src_From_Dst_with_index_spmm(float* input, float* ou
 
 
 
-
+//add by fuzb
 void Cuda_Stream::Gather_By_Src_From_Dst_with_index(float* input,float* output,float* weight_backward,//data 
         VertexId_CUDA* colum_indices,VertexId_CUDA *row_offset,//graph
         VertexId_CUDA src_start, VertexId_CUDA src_end,
@@ -553,7 +555,7 @@ void Cuda_Stream::Gather_By_Src_From_Dst_with_index(float* input,float* output,f
         
 }
 
-
+//add by fuzb
 void Cuda_Stream::merge_data_grad_with_index(float* input,float* output,//data 
 	 VertexId_CUDA batch_size,VertexId_CUDA feature_size,
         VertexId_CUDA* input_index){
@@ -699,6 +701,40 @@ void Cuda_Stream::Scatter_Src_Mirror_to_Msg(float* message,float* src_mirror_fea
         scatter_src_mirror_to_msg<float,VertexId_CUDA><<<CUDA_NUM_BLOCKS,CUDA_NUM_THREADS,0,stream>>>(
             message, src_mirror_feature, row_indices, column_offset, mirror_index,
                 batch_size, feature_size); 
+#else
+       printf("CUDA DISABLED Cuda_Stream::Scatter_Src_Mirror_to_Msg\n");
+       exit(0);   
+#endif
+        
+}
+
+
+void Cuda_Stream::Scatter_Src_to_Edge(float* message,float* src_mirror_feature,//data 
+        VertexId_CUDA* row_indices,VertexId_CUDA *column_offset,
+        VertexId_CUDA batch_size,
+        VertexId_CUDA feature_size)
+{
+#if CUDA_ENABLE
+       // check_output_4<<<1,1,0,stream>>>();
+       // std::cout << "lallalalal" << std::endl;
+        scatter_src_to_Edge<float,VertexId_CUDA><<<CUDA_NUM_BLOCKS,CUDA_NUM_THREADS,0,stream>>>(
+            message, src_mirror_feature, row_indices, column_offset,
+                batch_size, feature_size);
+       // std::cout << "hahahahaha^^^" << std::endl;
+#else
+       printf("CUDA DISABLED Cuda_Stream::Scatter_Src_Mirror_to_Msg\n");
+       exit(0);   
+#endif
+}
+
+void Cuda_Stream::Scatter_Dst_to_Edge(float* message,float* dst_feature,//data 
+        VertexId_CUDA* row_indices,VertexId_CUDA *column_offset,
+        VertexId_CUDA batch_size,
+        VertexId_CUDA feature_size){
+#if CUDA_ENABLE
+        scatter_dst_to_Edge<float,VertexId_CUDA><<<CUDA_NUM_BLOCKS,CUDA_NUM_THREADS,0,stream>>>(
+            message, dst_feature, row_indices, column_offset,
+                batch_size, feature_size);
 #else
        printf("CUDA DISABLED Cuda_Stream::Scatter_Src_Mirror_to_Msg\n");
        exit(0);   

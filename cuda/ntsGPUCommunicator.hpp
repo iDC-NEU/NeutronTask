@@ -459,6 +459,81 @@ public:
         }
     }
     
+    // void comm_debug()
+    // {
+    //     std::ofstream out("./log/cora_comm_" + std::to_string(device_id) + ".txt", std::ios_base::out);
+    //     out << "send_queue_size:" << send_queue_size << std::endl;
+    //     for(VertexId_CUDA trigger_device = 0; trigger_device < device_num; trigger_device++)
+    //     {
+    //         out << "------------------------send device: " << trigger_device << std::endl;
+    //         out << "------------------------send count: " << send_buffer[trigger_device]->count << std::endl;
+    //         cudaPointerAttributes attributes;
+    //         CHECK_CUDA_RESULT(cudaPointerGetAttributes(&attributes, send_buffer[trigger_device]->data));
+    //         out << "(send buffer)GPU ID: " << attributes.device << std::endl;
+    //         char * send_data = (char*)malloc(size_of_msg(feature_size) * send_buffer[trigger_device]->count);
+    //         CHECK_CUDA_RESULT(cudaMemcpy(send_data, send_buffer[trigger_device]->data, 
+    //                                       size_of_msg(feature_size) * send_buffer[trigger_device]->count, cudaMemcpyDeviceToHost))
+    //         for(int i = 0; i < size_of_msg(feature_size) * send_buffer[trigger_device]->count; i+=  size_of_msg(feature_size))
+    //         {
+    //           int *v_id = (int *)(send_data + i);
+    //           out << "v_id: " << *v_id << "   feat: ";
+    //           for(int j = sizeof(int); j < size_of_msg(feature_size); j+=sizeof(ValueType))
+    //           {
+    //             ValueType *data = (ValueType*)(send_data + i + j);
+    //             out << *data << " ";
+    //           }
+    //           out << std::endl;
+    //         }
+    //     }
+    //     for(VertexId_CUDA step = 0; step < device_num; step++)
+    //     {
+    //          //print recv buffer
+    //         int trigger_device = recv_queue[step];
+    //         out << "-----------------------recv device: " << trigger_device << std::endl;
+    //         out << "-----------------------recv count: " << recv_buffer[trigger_device]->count << std::endl;
+    //         out << "-----------------------recv queue[" << step << "]: " << recv_queue[step]  << std::endl;
+    //         if(trigger_device == device_id)
+    //         {
+    //             cudaPointerAttributes attributes_;
+    //             CHECK_CUDA_RESULT(cudaPointerGetAttributes(&attributes_,f_input));
+    //             out << "(receice buffer)GPU ID: " << attributes_.device << std::endl;
+    //             ValueType *f_inpui_data = (ValueType*)malloc(sizeof(ValueType) * feature_size * source_vertices[trigger_device]);
+    //             CHECK_CUDA_RESULT(cudaMemcpy(f_inpui_data, f_input, 
+    //                                 sizeof(ValueType) * feature_size * recv_buffer[trigger_device]->count, cudaMemcpyDeviceToHost))
+    //             for(int i = 0; i < source_vertices[trigger_device]; i++)
+    //             {
+    //                 out << "v_id: " << i + device_offset[trigger_device] << "   feat: ";
+    //                 for(int j = 0; j < feature_size; j++)
+    //                 {
+    //                     out << f_inpui_data[i * feature_size + j] << " ";
+    //                 }
+    //                 out << std::endl;
+    //             }
+    //             continue;
+    //         }
+    //         cudaPointerAttributes attributes;
+    //         CHECK_CUDA_RESULT(cudaPointerGetAttributes(&attributes, recv_buffer[trigger_device]->data));
+    //         out << "(receice buffer)GPU ID: " << attributes.device << std::endl;
+    //         char * recv_data = (char*)malloc(size_of_msg(feature_size) * recv_buffer[trigger_device]->count);
+    //         char * recv_data_gpu = recv_buffer[trigger_device]->data;
+    //         CHECK_CUDA_RESULT(cudaMemcpy(recv_data, recv_data_gpu, 
+    //                                     size_of_msg(feature_size) * recv_buffer[trigger_device]->count, cudaMemcpyDeviceToHost))
+    //         for(int i = 0; i < size_of_msg(feature_size) * recv_buffer[trigger_device]->count; i +=  size_of_msg(feature_size))
+    //         {
+    //             int *v_id = (int *)(recv_data + i);
+    //             out << "v_id: " << *v_id << "   feat: ";
+    //             for(int j = sizeof(int); j < size_of_msg(feature_size); j+=sizeof(ValueType))
+    //             {
+    //                 ValueType *data = (ValueType*)(recv_data + i + j);
+    //                 out << *data << " ";
+    //             }
+    //             out << std::endl;
+    //         }
+    //     }
+    //     out << "recv queue size : " << recv_queue_size << std::endl;
+    //     out << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!finish debug!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+    //     sleep(5);      
+    // }
 
     void comm_only_embedding_debug()
     {

@@ -1,8 +1,8 @@
 <!--
  * @Author: fzb fzb0316@163.com
  * @Date: 2024-09-29 18:52:21
- * @LastEditors: fzb fzb0316@163.com
- * @LastEditTime: 2024-09-29 19:08:23
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2024-12-29 20:04:37
  * @FilePath: /fuzb/NtsTask/NeutronTask/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -70,7 +70,13 @@ cmake ..
 make -j4
 ```
 
+## Dataset
 
+## .cfg文件介绍
+
+## toolkit介绍
+
+## baseline跑法(脚本介绍)
 
 single-machine multi-GPUs
 ```

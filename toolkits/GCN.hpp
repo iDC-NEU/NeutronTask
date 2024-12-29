@@ -12,21 +12,21 @@ public:
   ValueType decay_rate;
   ValueType decay_epoch;
 
-  
+  // graph
   VertexSubset *active;
   Graph<Empty> *graph;
-  
-  
+  //std::vector<CSC_segment_pinned *> subgraphs;
+  // NN
   GNNDatum *gnndatum;
   NtsVar L_GT_C;
   NtsVar L_GT_G;
   NtsVar MASK;
   NtsVar MASK_gpu;
   std::map<std::string, NtsVar> I_data;
- 
+ //GraphOperation *gt;
   PartitionedGraph* partitioned_graph;
   nts::ctx::NtsContext* ctx;
-  
+  // Variables
   std::vector<Parameter *> P;
   std::vector<NtsVar> X;
   std::vector<NtsVar> X_P;
@@ -56,7 +56,7 @@ public:
     active->fill();
 
     graph->init_gnnctx(graph->config->layer_string);
-    
+    // rtminfo initialize
     graph->init_rtminfo();
     graph->rtminfo->process_local = graph->config->process_local;
     graph->rtminfo->reduce_comm = graph->config->process_local;
@@ -67,21 +67,21 @@ public:
     graph->rtminfo->lock_free = graph->config->lock_free;
   }
   void init_graph() {
-    
-
-
-
-
-
-
-
+    // std::vector<CSC_segment_pinned *> csc_segment;
+//    graph->generate_COO();
+//    graph->reorder_COO_W2W();
+//    // generate_CSC_Segment_Tensor_pinned(graph, csc_segment, true);
+//    gt = new GraphOperation(graph, active);
+//    gt->GenerateGraphSegment(subgraphs, GPU_T, [&](VertexId src, VertexId dst) {
+//      return gt->norm_degree(src, dst);
+//    });
     partitioned_graph=new PartitionedGraph(graph, active);
     partitioned_graph->GenerateAll([&](VertexId src, VertexId dst) {
       return nts::op::nts_norm_degree(graph,src, dst);
     },GPU_T);    
     double load_rep_time = 0;
     load_rep_time -= get_time();
-    
+    // graph->load_replicate3(graph->gnnctx->layer_size);
     load_rep_time += get_time();
     if (graph->partition_id == 0)
       printf("#load_rep_time=%lf(s)\n", load_rep_time);
@@ -118,8 +118,8 @@ public:
       P.push_back(new Parameter(graph->gnnctx->layer_size[i],
                                 graph->gnnctx->layer_size[i + 1], alpha, beta1,
                                 beta2, epsilon, weight_decay));
-      
-      
+      //            P.push_back(new Parameter(graph->gnnctx->layer_size[i],
+      //                        graph->gnnctx->layer_size[i+1]));
     }
 
     torch::Device GPU(torch::kCUDA, 0);
@@ -132,8 +132,8 @@ public:
     drpmodel = torch::nn::Dropout(
         torch::nn::DropoutOptions().p(drop_rate).inplace(true));
 
-    
-    
+    //        F=graph->Nts->NewOnesTensor({graph->gnnctx->l_v_num,
+    //        graph->gnnctx->layer_size[0]},torch::DeviceType::CPU);
 
     F = graph->Nts->NewLeafTensor(
         gnndatum->local_feature,
@@ -148,7 +148,7 @@ public:
     X[0] = F.cuda().set_requires_grad(true);
   }
 
-  void Test(long s) { 
+  void Test(long s) { // 0 train, //1 eval //2 test
     NtsVar mask_train = MASK_gpu.eq(s);
     NtsVar all_train;
     if(graph->config->Decoupled == 1)
@@ -200,15 +200,15 @@ public:
 
     } else if (layer == 1) {
       y = P[layer]->forward(a);
-      y = y.log_softmax(1); 
+      y = y.log_softmax(1); // CUDA
     }
 
-    
+    //cp->op_push(a, y, nts::autodiff::NNOP);
     return y;
   }
 
   void Loss() {
-    
+    //  return torch::nll_loss(a,L_GT_C);
     torch::Tensor a;
     if(graph->config->Decoupled == 1)
     {
@@ -241,14 +241,14 @@ public:
     graph->rtminfo->forward = true;
     for (int i = 0; i < graph->gnnctx->layer_size.size() - 1; i++) {
       graph->rtminfo->curr_layer = i;
-      
-      
-      
-
-
-
+      // if (i != 0) {
+      //   X[i] = drpmodel(X[i]);
+      // }
+//      gt->GraphPropagateForward(X[i], Y[i], subgraphs);
+//      cp->op_push(X[i], Y[i], nts::autodiff::DIST_GPU);
+//      X[i + 1] = vertexForward(Y[i], X[i]);
        NtsVar Y_i= ctx->runGraphOp<nts::op::ForwardGPUfuseOp>(partitioned_graph,active,X[i]);      
-  
+  //      printf("stateless\n");
         X[i + 1]=ctx->runVertexForward([&](NtsVar n_i,NtsVar v_i){
             return vertexForward(n_i, v_i);
         },
@@ -260,7 +260,7 @@ public:
   void Forward_decoupled() {
     graph->rtminfo->forward = true;
     for (int i = 0; i < graph->gnnctx->layer_size.size() - 1; i++) {
-  
+  //      printf("stateless\n");
         X[i + 1]=ctx->runVertexForward([&](NtsVar n_i,NtsVar v_i){
             return torch::relu(P[i]->forward(n_i)).set_requires_grad(true);
         },
@@ -278,7 +278,7 @@ public:
     
   }
 
-  void run() {
+  /*GPU dist*/ void run() {
     printf("~~~~~~~ decoupled: %d \n", graph->config->Decoupled);
     if (graph->partition_id == 0)
     {
@@ -291,7 +291,7 @@ public:
              iterations);
       }
     }
-    
+    // graph->print_info();
 
     if(graph->config->Decoupled == 1)
     {
@@ -322,7 +322,7 @@ public:
       Test(1);
       Test(2);
       Loss();
-      
+      // Backward();
       ctx->self_backward(true);
       Update();
       if (graph->partition_id == 0)
@@ -330,43 +330,43 @@ public:
                   << std::endl;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    //        graph->rtminfo->forward = true;
+    //            graph->rtminfo->curr_layer=0;
+    //            gt->GraphPropagateForward(X[0], Y[0], subgraphs);
+    //            for(VertexId i=0;i<graph->partitions;i++)
+    //            if(graph->partition_id==i){
+    //                int test=graph->gnnctx->p_v_s;
+    //                std::cout<<"DEBUG"<<graph->in_degree_for_backward[test]<<"
+    //                X: "<<X[0][test-graph->gnnctx->p_v_s][15]<<" Y:
+    //                "<<Y[0][test-graph->gnnctx->p_v_s][15]<<std::endl;
+    //                test=graph->gnnctx->p_v_e-1;
+    //                std::cout<<"DEBUG"<<graph->in_degree_for_backward[test]<<"
+    //                X: "<<X[0][test-graph->gnnctx->p_v_s][15]<<" Y:
+    //                "<<Y[0][test-graph->gnnctx->p_v_s][15]<<std::endl;
+    //                test=(graph->gnnctx->p_v_e+graph->gnnctx->p_v_s)/2;
+    //                std::cout<<"DEBUG"<<graph->in_degree_for_backward[test]<<"
+    //                X: "<<X[0][test-graph->gnnctx->p_v_s][15]<<" Y:
+    //                "<<Y[0][test-graph->gnnctx->p_v_s][15]<<std::endl;
+    //            }
+    //
+    //            graph->rtminfo->forward = false;
+    //            graph->rtminfo->curr_layer=0;
+    //            gt->GraphPropagateBackward(X[0], Y[0], subgraphs);
+    //            for(VertexId i=0;i<graph->partitions;i++)
+    //            if(graph->partition_id==i){
+    //                int test=graph->gnnctx->p_v_s;
+    //                std::cout<<"DEBUG"<<graph->out_degree_for_backward[test]<<"
+    //                X: "<<X[0][test-graph->gnnctx->p_v_s][15]<<" Y:
+    //                "<<Y[0][test-graph->gnnctx->p_v_s][15]<<std::endl;
+    //                test=graph->gnnctx->p_v_e-1;
+    //                std::cout<<"DEBUG"<<graph->out_degree_for_backward[test]<<"
+    //                X: "<<X[0][test-graph->gnnctx->p_v_s][15]<<" Y:
+    //                "<<Y[0][test-graph->gnnctx->p_v_s][15]<<std::endl;
+    //                test=(graph->gnnctx->p_v_e+graph->gnnctx->p_v_s)/2;
+    //                std::cout<<"DEBUG"<<graph->out_degree_for_backward[test]<<"
+    //                X: "<<X[0][test-graph->gnnctx->p_v_s][15]<<" Y:
+    //                "<<Y[0][test-graph->gnnctx->p_v_s][15]<<std::endl;
+    //            }
 
     exec_time += get_time();
 
@@ -400,10 +400,10 @@ public:
       printf("#graph repliation time=%lf(s)\n", graph->all_replication_time);
       printf("#Timer Info End\n");
     }
-    
-    
-    
-    
+    //      NtsVar tt_cpu=tt.cpu();
+    //  if(i_i==(iterations-1)&&graph->partition_id==0){
+    //     inference(tt_cpu,graph, embedding, pytool,W1,W2);
+    //  }
     double max_time = 0;
     double mean_time = 0;
     double another_time = 0;

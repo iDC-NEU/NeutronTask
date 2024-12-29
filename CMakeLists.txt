@@ -4,8 +4,8 @@ add_definitions(-w)
 set(CMAKE_CUDA_COMPILER /usr/local/cuda/bin/nvcc)
 # please change this to the path where you put libtorch
 # TODO: torch path should not hard coded in cmake file
-# list(APPEND CMAKE_PREFIX_PATH "/home/***/lib/libtorch-1.9-cu111/")
-list(APPEND CMAKE_PREFIX_PATH "/home/***/lib/libtorch-1.13/libtorch/")
+# list(APPEND CMAKE_PREFIX_PATH "/home/fuzb/lib/libtorch-1.9-cu111/")
+list(APPEND CMAKE_PREFIX_PATH "/home/fuzb/lib/libtorch-1.13/libtorch/")
 
 project(GNNmini)
 set(ENV{LANG} "C")
@@ -92,8 +92,8 @@ add_custom_target(format ${NEUTRONSTAR_BUILD_SUPPORT_DIR}/run_clang_format.py
         # --quiet
         )
 
-set(METIS_INCLUDE /home/***/lib/metis/include/)
-set(METIS_LIB /home/***/lib/metis/lib/libmetis.so)
+set(METIS_INCLUDE /home/fuzb/lib/metis/include/)
+set(METIS_LIB /home/fuzb/lib/metis/lib/libmetis.so)
 
 include_directories(
 ${CMAKE_CURRENT_SOURCE_DIR}

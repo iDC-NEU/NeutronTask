@@ -1,4 +1,18 @@
+/*
+Copyright (c) 2021-2022 Qiange Wang, Northeastern University
 
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
 #ifndef NTSDATALODOR_HPP
 #define NTSDATALODOR_HPP
 #include <assert.h>
@@ -47,13 +61,17 @@ GNNDatum(GNNContext *_gnnctx, Graph<Empty> *graph_) {
  * generate random data for feature, label and mask
  */
 void random_generate() {
+  std::cout << "print:" << gnnctx->l_v_num<<std::endl;
+  memset(local_feature, 1.0, sizeof(ValueType)*gnnctx->l_v_num*gnnctx->layer_size[0]);
   for (int i = 0; i < gnnctx->l_v_num; i++) {
-    for (int j = 0; j < gnnctx->layer_size[0]; j++) {
-      local_feature[i * gnnctx->layer_size[0] + j] = 1.0;
-    }
+  //   for (int j = 0; j < gnnctx->layer_size[0]; j++) {
+  //     local_feature[i * gnnctx->layer_size[0] + j] = 1.0;
+  //   }
     local_label[i] = rand() % gnnctx->label_num;
     local_mask[i] = i % 3;
+  // std::cout << "finish:" << i<<std::endl;
   }
+  // std::cout << "finish:" << gnnctx->label_num<<std::endl;
 }
 
 /**
