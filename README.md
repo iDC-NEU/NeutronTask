@@ -2,7 +2,7 @@
  * @Author: fzb fzb0316@163.com
  * @Date: 2024-09-29 18:52:21
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2024-12-30 19:08:21
+ * @LastEditTime: 2024-12-30 19:10:17
  * @FilePath: /fuzb/NtsTask/NeutronTask/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -156,4 +156,9 @@ single-machine multi-GPUs
 | **GAT**   | Graph Attention Networks (GAT)          |
 ## baseline
 ### Sancus
+bash baseline/sancus/light-dist-gnn/run.sh
 ### DGL
+``` python 
+bash baseline/dgl/examples/multigpu/run_random.sh
+bash baseline/dgl/examples/pytorch/gcn/run.sh
+```
