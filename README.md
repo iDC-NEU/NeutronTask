@@ -2,7 +2,7 @@
  * @Author: fzb fzb0316@163.com
  * @Date: 2024-09-29 18:52:21
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2024-12-29 20:53:27
+ * @LastEditTime: 2024-12-30 19:08:21
  * @FilePath: /fuzb/NtsTask/NeutronTask/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -69,9 +69,61 @@ cmake ..
 
 make -j4
 ```
-
+single-machine multi-GPUs
+```
+./run_nts.sh 1 task_parallelism.cfg
+```
 ## Dataset
+### `.edge` File
+- **Purpose**: Defines the graph's edges, representing the graph's topology.
+- **Format**: Each line represents an edge between two nodes:
 
+| node_id1 | node_id2 |
+|----------|----------|
+| 1        | 2        |
+| 2        | 3        |
+| 3        | 4        |
+| 4        | 1        |
+| 1        | 3        |
+
+---
+
+### `.feature` File
+- **Purpose**: Stores features for each node in the graph.
+- **Format**: Each row represents the feature vector of a node, optionally prefixed by the node ID:
+
+| node_id | feature1 | feature2 | feature3 |
+|---------|----------|----------|----------|
+| 1       | 0.1      | 0.2      | 0.3      |
+| 2       | 0.4      | 0.5      | 0.6      |
+| 3       | 0.7      | 0.8      | 0.9      |
+| 4       | 1.0      | 1.1      | 1.2      |
+
+---
+
+### `.label` File
+- **Purpose**: Stores labels for nodes or edges for classification or regression tasks.
+- **Format**: Each row represents a node/edge and its corresponding label:
+
+| node_id | label |
+|---------|-------|
+| 1       | 0     |
+| 2       | 1     |
+| 3       | 0     |
+| 4       | 1     |
+
+---
+
+### `.mask` File
+- **Purpose**: Specifies which nodes or edges belong to training, validation, or testing sets.
+- **Format**: Each row is a boolean or binary indicator (1/0) for a node's inclusion in a dataset:
+
+| node_id | train_mask | val_mask | test_mask |
+|---------|------------|----------|-----------|
+| 1       | 1          | 0        | 0         |
+| 2       | 0          | 1        | 0         |
+| 3       | 0          | 0        | 1         |
+| 4       | 1          | 0        | 0         |
 ## CFG file
 | **Section**            | **Parameter**       | **Description**                                                      |
 |------------------------|---------------------|----------------------------------------------------------------------|
@@ -94,12 +146,14 @@ make -j4
 | **Algorithm-Specific Parameters** | ALPHA   | PageRank teleport probability for APPNP.                              |
 |                        | K                   | Number of propagation iterations.                                     | 
 
-## toolkit介绍
-
-## baseline跑法(脚本介绍)
+## toolkits
+| Toolkit       | Description                                                        |
+|---------------|--------------------------------------------------------------------|
+| **APPNP_DP**  | Approximate Personalized Propagation of Neural Predictions (APPNP) using Data Parallelism|
+| **GCN_DP**    | Graph Convolutional Networks (GCN) with Data Parallelism using Data Parallelism         |
+| **GCN_TP_TD_pipeline**    |  Graph Convolutional Networks (GCN) with Data Parallelism using Task Parallelism and Task Decoupled Training and pipeline|
+| **GCN_TP_TD_pipeline_wopipeline** | Graph Convolutional Networks (GCN) with Data Parallelism using Task Parallelism and Task Decoupled Training                           |
+| **GAT**   | Graph Attention Networks (GAT)          |
+## baseline
 ### Sancus
-
-single-machine multi-GPUs
-```
-./run_nts.sh 1 task_parallelism.cfg
-```
+### DGL
