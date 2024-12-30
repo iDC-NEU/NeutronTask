@@ -89924,19 +89924,11 @@ dep/gemini/type.hpp
 core/neutronstar.hpp
 /home/hdd2/lusz/NeutronTask/toolkits/core/neutronstar.hpp
 
-/home/hdd2/lusz/NeutronTask/toolkits/APPNP_Double_Decouple.hpp
+/home/hdd2/lusz/NeutronTask/toolkits/APPNP_DP.hpp
 core/neutronstar.hpp
 /home/hdd2/lusz/NeutronTask/toolkits/core/neutronstar.hpp
 
 /home/hdd2/lusz/NeutronTask/toolkits/APPNP_Double_Decouple_caching.hpp
-core/neutronstar.hpp
-/home/hdd2/lusz/NeutronTask/toolkits/core/neutronstar.hpp
-
-/home/hdd2/lusz/NeutronTask/toolkits/APPNP_Double_Decouple_pipeline.hpp
-core/neutronstar.hpp
-/home/hdd2/lusz/NeutronTask/toolkits/core/neutronstar.hpp
-
-/home/hdd2/lusz/NeutronTask/toolkits/APPNP_GPUs.hpp
 core/neutronstar.hpp
 /home/hdd2/lusz/NeutronTask/toolkits/core/neutronstar.hpp
 
@@ -89980,6 +89972,10 @@ core/neutronstar.hpp
 core/neutronstar.hpp
 /home/hdd2/lusz/NeutronTask/toolkits/core/neutronstar.hpp
 
+/home/hdd2/lusz/NeutronTask/toolkits/GCN_DP.hpp
+core/neutronstar.hpp
+/home/hdd2/lusz/NeutronTask/toolkits/core/neutronstar.hpp
+
 /home/hdd2/lusz/NeutronTask/toolkits/GCN_EAGER.hpp
 core/neutronstar.hpp
 /home/hdd2/lusz/NeutronTask/toolkits/core/neutronstar.hpp
@@ -89988,7 +89984,11 @@ core/neutronstar.hpp
 core/neutronstar.hpp
 /home/hdd2/lusz/NeutronTask/toolkits/core/neutronstar.hpp
 
-/home/hdd2/lusz/NeutronTask/toolkits/GCN_GPUs.hpp
+/home/hdd2/lusz/NeutronTask/toolkits/GCN_TP_TD_pipeline.hpp
+core/neutronstar.hpp
+/home/hdd2/lusz/NeutronTask/toolkits/core/neutronstar.hpp
+
+/home/hdd2/lusz/NeutronTask/toolkits/GCN_TP_TD_wopipeline.hpp
 core/neutronstar.hpp
 /home/hdd2/lusz/NeutronTask/toolkits/core/neutronstar.hpp
 
@@ -90031,16 +90031,16 @@ GIN_GPU.hpp
 /home/hdd2/lusz/NeutronTask/toolkits/GIN_GPU.hpp
 APPNP.hpp
 /home/hdd2/lusz/NeutronTask/toolkits/APPNP.hpp
-APPNP_GPUs.hpp
-/home/hdd2/lusz/NeutronTask/toolkits/APPNP_GPUs.hpp
-GCN_GPUs.hpp
-/home/hdd2/lusz/NeutronTask/toolkits/GCN_GPUs.hpp
+APPNP_DP.hpp
+/home/hdd2/lusz/NeutronTask/toolkits/APPNP_DP.hpp
+GCN_DP.hpp
+/home/hdd2/lusz/NeutronTask/toolkits/GCN_DP.hpp
 GCN_CPU_decoupled.hpp
 /home/hdd2/lusz/NeutronTask/toolkits/GCN_CPU_decoupled.hpp
-APPNP_Double_Decouple.hpp
-/home/hdd2/lusz/NeutronTask/toolkits/APPNP_Double_Decouple.hpp
-APPNP_Double_Decouple_pipeline.hpp
-/home/hdd2/lusz/NeutronTask/toolkits/APPNP_Double_Decouple_pipeline.hpp
+GCN_TP_TD_wopipeline.hpp
+/home/hdd2/lusz/NeutronTask/toolkits/GCN_TP_TD_wopipeline.hpp
+GCN_TP_TD_pipeline.hpp
+/home/hdd2/lusz/NeutronTask/toolkits/GCN_TP_TD_pipeline.hpp
 APPNP_Double_Decouple_caching.hpp
 /home/hdd2/lusz/NeutronTask/toolkits/APPNP_Double_Decouple_caching.hpp
 GAT_Double_Decouple_pipeline.hpp

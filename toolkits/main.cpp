@@ -30,11 +30,11 @@ Copyright (c) 2021-2022 Qiange Wang, Northeastern University
 #include "GCN_EAGER_single.hpp"
 #include "GIN_GPU.hpp"
 #include "APPNP.hpp"
-#include "APPNP_GPUs.hpp"
-#include "GCN_GPUs.hpp"
+#include "APPNP_DP.hpp"
+#include "GCN_DP.hpp"
 #include "GCN_CPU_decoupled.hpp"
-#include "APPNP_Double_Decouple.hpp"
-#include "APPNP_Double_Decouple_pipeline.hpp"
+#include "GCN_TP_TD_wopipeline.hpp"
+#include "GCN_TP_TD_pipeline.hpp"
 #include "APPNP_Double_Decouple_caching.hpp"
 #include "GAT_Double_Decouple_pipeline.hpp"
 #endif
@@ -199,10 +199,10 @@ int main(int argc, char **argv) {
     ntsAPPNP->init_graph();
     ntsAPPNP->init_nn();
     ntsAPPNP->run();
-  } else if (graph->config->algorithm == std::string("GCNGPUs")) {
+  } else if (graph->config->algorithm == std::string("GCNDP")) {
     graph->load_directed(graph->config->edge_file, graph->config->vertices);
     graph->generate_backward_structure();
-    GCN_GPUs_impl *ntsGCN = new GCN_GPUs_impl(graph, iterations);
+    GCN_DP_impl *ntsGCN = new GCN_DP_impl(graph, iterations);
     ntsGCN->init_graph();
     ntsGCN->init_nn();
     ntsGCN->run();
@@ -213,24 +213,24 @@ int main(int argc, char **argv) {
     ntsGCN->init_graph();
     ntsGCN->init_nn();
     ntsGCN->run();
-  } else if (graph->config->algorithm == std::string("APPNPGPUs")) {
+  } else if (graph->config->algorithm == std::string("APPNPDP")) {
     graph->load_directed(graph->config->edge_file, graph->config->vertices);
     graph->generate_backward_structure();
-    APPNP_GPUs_impl *ntsAPPNPGPUs = new APPNP_GPUs_impl(graph, iterations);
+    APPNP_DP_impl *ntsAPPNPGPUs = new APPNP_DP_impl(graph, iterations);
     ntsAPPNPGPUs->init_graph();
     ntsAPPNPGPUs->init_nn();
     ntsAPPNPGPUs->run();
-  } else if (graph->config->algorithm == std::string("APPNPDoubleDecouple")) {
+  } else if (graph->config->algorithm == std::string("GCNTPTDwopipeline")) {
     graph->load_directed(graph->config->edge_file, graph->config->vertices);
     graph->generate_backward_structure();
-    APPNP_Double_Decouple_impl *ntsAPPNPGPUs = new APPNP_Double_Decouple_impl(graph, iterations);
+    GCN_TP_TD_wopipeline_impl *ntsAPPNPGPUs = new GCN_TP_TD_wopipeline_impl(graph, iterations);
     ntsAPPNPGPUs->init_graph();
     ntsAPPNPGPUs->init_nn();
     ntsAPPNPGPUs->run();
-  } else if (graph->config->algorithm == std::string("APPNPDoubleDecouplePipeline")) {
+  } else if (graph->config->algorithm == std::string("GCNTPTDpipeline")) {
     graph->load_directed(graph->config->edge_file, graph->config->vertices);
     graph->generate_backward_structure();
-    APPNP_Double_Decouple_pipeline_impl *ntsAPPNPGPUs = new APPNP_Double_Decouple_pipeline_impl(graph, iterations);
+    GCN_TP_TD_pipeline_impl *ntsAPPNPGPUs = new GCN_TP_TD_pipeline_impl(graph, iterations);
     ntsAPPNPGPUs->init_graph();
     ntsAPPNPGPUs->init_nn();
     ntsAPPNPGPUs->run();

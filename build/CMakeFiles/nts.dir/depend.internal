@@ -4566,10 +4566,8 @@ CMakeFiles/nts.dir/toolkits/main.cpp.o
  /home/hdd/fuzb/lib/mpich-4.1.1/mpich/include/mpicxx.h
  /home/hdd/fuzb/lib/mpich-4.1.1/mpich/include/mpio.h
  /home/hdd2/lusz/NeutronTask/toolkits/APPNP.hpp
- /home/hdd2/lusz/NeutronTask/toolkits/APPNP_Double_Decouple.hpp
+ /home/hdd2/lusz/NeutronTask/toolkits/APPNP_DP.hpp
  /home/hdd2/lusz/NeutronTask/toolkits/APPNP_Double_Decouple_caching.hpp
- /home/hdd2/lusz/NeutronTask/toolkits/APPNP_Double_Decouple_pipeline.hpp
- /home/hdd2/lusz/NeutronTask/toolkits/APPNP_GPUs.hpp
  /home/hdd2/lusz/NeutronTask/toolkits/COMMNET_GPU.hpp
  /home/hdd2/lusz/NeutronTask/toolkits/GAT_CPU.hpp
  /home/hdd2/lusz/NeutronTask/toolkits/GAT_CPU_DIST.hpp
@@ -4580,9 +4578,11 @@ CMakeFiles/nts.dir/toolkits/main.cpp.o
  /home/hdd2/lusz/NeutronTask/toolkits/GCN_CPU_EAGER.hpp
  /home/hdd2/lusz/NeutronTask/toolkits/GCN_CPU_SAMPLE.hpp
  /home/hdd2/lusz/NeutronTask/toolkits/GCN_CPU_decoupled.hpp
+ /home/hdd2/lusz/NeutronTask/toolkits/GCN_DP.hpp
  /home/hdd2/lusz/NeutronTask/toolkits/GCN_EAGER.hpp
  /home/hdd2/lusz/NeutronTask/toolkits/GCN_EAGER_single.hpp
- /home/hdd2/lusz/NeutronTask/toolkits/GCN_GPUs.hpp
+ /home/hdd2/lusz/NeutronTask/toolkits/GCN_TP_TD_pipeline.hpp
+ /home/hdd2/lusz/NeutronTask/toolkits/GCN_TP_TD_wopipeline.hpp
  /home/hdd2/lusz/NeutronTask/toolkits/GIN_CPU.hpp
  /home/hdd2/lusz/NeutronTask/toolkits/GIN_GPU.hpp
  /home/hdd2/lusz/NeutronTask/toolkits/main.cpp

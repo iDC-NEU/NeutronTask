@@ -4565,10 +4565,8 @@ CMakeFiles/nts.dir/toolkits/main.cpp.o: /home/hdd/fuzb/lib/mpich-4.1.1/mpich/inc
 CMakeFiles/nts.dir/toolkits/main.cpp.o: /home/hdd/fuzb/lib/mpich-4.1.1/mpich/include/mpicxx.h
 CMakeFiles/nts.dir/toolkits/main.cpp.o: /home/hdd/fuzb/lib/mpich-4.1.1/mpich/include/mpio.h
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/APPNP.hpp
-CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/APPNP_Double_Decouple.hpp
+CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/APPNP_DP.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/APPNP_Double_Decouple_caching.hpp
-CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/APPNP_Double_Decouple_pipeline.hpp
-CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/APPNP_GPUs.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/COMMNET_GPU.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GAT_CPU.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GAT_CPU_DIST.hpp
@@ -4579,9 +4577,11 @@ CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GCN_CPU.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GCN_CPU_EAGER.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GCN_CPU_SAMPLE.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GCN_CPU_decoupled.hpp
+CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GCN_DP.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GCN_EAGER.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GCN_EAGER_single.hpp
-CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GCN_GPUs.hpp
+CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GCN_TP_TD_pipeline.hpp
+CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GCN_TP_TD_wopipeline.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GIN_CPU.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/GIN_GPU.hpp
 CMakeFiles/nts.dir/toolkits/main.cpp.o: ../toolkits/main.cpp

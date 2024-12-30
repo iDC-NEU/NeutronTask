@@ -1,6 +1,6 @@
 #include "core/neutronstar.hpp"
 
-class APPNP_GPUs_impl {
+class GCN_DP_impl {
 public:
     int iterations;
 
@@ -57,7 +57,7 @@ public:
 
 
     
-    APPNP_GPUs_impl(Graph<Empty> *graph_, int iterations_,
+    GCN_DP_impl(Graph<Empty> *graph_, int iterations_,
                bool process_local = false, bool process_overlap = false){
         graph = graph_;
         iterations = iterations_;
@@ -188,7 +188,6 @@ public:
 
                 subgraph_generator->subgraph_queq[i]->P[j]->set_multi_gpu_comm(nccl_comm);
             }
-            subgraph_generator->subgraph_queq[i]->init_X_P(graph->config->K+1);
         }
 
         // subgraph_generator->init_CudaStream();//放到每个子图的定义里面了
@@ -220,7 +219,7 @@ public:
         {
             ctx->appendNNOp(predict, loss_train);
         }
-        LOG_INFO("loss:%f", loss_train.item<float>());
+        // LOG_INFO("loss:%f", loss_train.item<float>());
 
         return loss_train;
     }
@@ -350,36 +349,62 @@ public:
         cudaSetUsingDevice(dev_id);
         for(int layer = 0; layer < (graph->gnnctx->layer_size.size()-1); layer++)
         {
+            // out << "-------------------------------------------layer :" << layer << std::endl;
             graph->rtminfo->curr_layer = layer;
 
-            // NtsVar Y_i = device_ctx[dev_id]->runGraphOp<nts::op::MultiGPUAllGNNCalcGraphSumOp>(subgraph, subgraph->X[layer]);
-            // subgraph->X[layer+1] = device_ctx[dev_id]->runVertexForward([&](NtsVar n_i, NtsVar v_i){
-            //     if(layer < (graph->gnnctx->layer_size.size()-2)){
-            //         return torch::dropout(torch::relu(subgraph->P[layer]->forward(n_i)), drop_rate, device_ctx[dev_id]->is_train());
-            //     }
-            //     else{
-            //         return subgraph->P[layer]->forward(n_i);
-            //         }
-            // }, Y_i, subgraph->X[layer]);
+                // out << "layer[" << layer << "] X sum: " << subgraph->X[layer].abs().sum() << std::endl;
+                // out << "layer[" << layer << "] X mean: " << subgraph->X[layer].abs().mean() << std::endl;
+                // out << "layer[" << layer << "] X max: " << subgraph->X[layer].abs().max() << std::endl;
 
+            NtsVar Y_i = device_ctx[dev_id]->runGraphOp<nts::op::MultiGPUAllGNNCalcGraphSumOp>(subgraph, subgraph->X[layer]);
+            // NtsVar Y_i = device_ctx[dev_id]->runGraphOp<nts::op::MultiGPUAllGNNCalcGraphSumOpSpMM>(subgraph, subgraph->X[layer]);
+
+                // out << "layer[" << layer << "] Y_i sum: " << Y_i.abs().sum() << std::endl;
+                // out << "layer[" << layer << "] Y_i mean: " << Y_i.abs().mean() << std::endl;
+                // out << "layer[" << layer << "] Y_i max: " << Y_i.abs().max() << std::endl;
+                
             subgraph->X[layer+1] = device_ctx[dev_id]->runVertexForward([&](NtsVar n_i, NtsVar v_i){
+                if(layer < (graph->gnnctx->layer_size.size()-2)){
                     return torch::dropout(torch::relu(subgraph->P[layer]->forward(n_i)), drop_rate, device_ctx[dev_id]->is_train());
-            }, subgraph->X[layer], subgraph->X[layer]);
+                }
+                else{
+                    return subgraph->P[layer]->forward(n_i);
+                    }
+            }, Y_i, subgraph->X[layer]);
+
+                // out << "layer[" << layer << "] subgraph->P[layer]->W sum : " << subgraph->P[layer]->W.abs().sum() << std::endl;
+                // out << "layer[" << layer << "] subgraph->P[layer]->W mean : " << subgraph->P[layer]->W.abs().mean() << std::endl;
+                // out << "layer[" << layer << "] subgraph->P[layer]->W max : " << subgraph->P[layer]->W.abs().max() << std::endl;
+                
+
+                // out << "layer[" << layer << "] X+1: " << subgraph->X[layer+1].abs().sum() << std::endl;
+                // out << "layer[" << layer << "] X+1 mean: " << subgraph->X[layer+1].abs().mean() << std::endl;
+                // out << "layer[" << layer << "] X+1 max: " << subgraph->X[layer+1].abs().max() << std::endl;
+                // out << "finish NN OP" << std::endl;
+                // out << "(out data)GPU ID: " << subgraph->X[layer+1].device() << std::endl;
+                // out << "(out data)size: " << subgraph->X[layer+1].sizes() << std::endl;
+                // NtsVar X_i_1 = subgraph->X[layer+1].to(torch::DeviceType::CPU);
+                // for(int i = 0; i < subgraph->owned_vertices; i++)
+                // {
+                //     out << "dst id[" << i + subgraph->subgraph_offset[subgraph->device_id] << "] embedding: ";
+                //     for(int j = 0; j < X_i_1.size(1); j++)
+                //     {
+                //         out << X_i_1[i].data<float>()[j] << " ";
+                //     }
+                //     out << std::endl;
+                // }
         }
+        // sleep(5);
+        // assert(false);
 
-        subgraph->X_P[0] = subgraph->X[graph->gnnctx->layer_size.size()-1];
-
-        for(int layer = 0; layer < graph->config->K; layer++)
-        {
-            subgraph->X_P[layer+1] =  device_ctx[dev_id]->runGraphOp<nts::op::MultiGPUAllGNNCalcGraphSumOp>(subgraph, subgraph->X_P[layer]);
-        }
-
-        NtsVar loss = LOSS(subgraph->X_P[graph->config->K], subgraph->label_gpu, device_ctx[dev_id], 
+        NtsVar loss = LOSS(subgraph->X[graph->gnnctx->layer_size.size()-1], subgraph->label_gpu, device_ctx[dev_id], 
                             subgraph->mask_gpu);
 
-        // NtsVar loss = LOSS(subgraph->X[graph->gnnctx->layer_size.size()-1], subgraph->label_gpu, device_ctx[dev_id], 
-        //             subgraph->mask_gpu);
-
+                // out << "loss sum : " << loss.abs().sum() << std::endl;
+                // out << "loss mean: " << loss.abs().mean() << std::endl;
+                // out << "loss max: " << loss.abs().max() << std::endl;
+        
+        cudaStreamSynchronize(subgraph->cs->stream);
         
         train_correct[dev_id] = getCorrect(0, subgraph->X[graph->gnnctx->layer_size.size()-1], 
                                             subgraph->label_gpu, subgraph->mask_gpu);
@@ -388,9 +413,47 @@ public:
         test_correct[dev_id] = getCorrect(2, subgraph->X[graph->gnnctx->layer_size.size()-1], 
                                             subgraph->label_gpu, subgraph->mask_gpu);
 
+            // out << "finish LOSS OP" << std::endl;
+            // out << "(label)GPU ID: " << subgraph->label_gpu.device() << std::endl;
+            // out << "(label)size: " << subgraph->label_gpu.sizes() << std::endl;
+            // out << "(mask)GPU ID: " << subgraph->mask_gpu.device() << std::endl;
+            // out << "(mask)size: " << subgraph->mask_gpu.sizes() << std::endl;
+            // out << "(loss) : " << loss << std::endl;
+            // out << "(train correct) : " << train_correct[dev_id] << std::endl;
+            // out << "(val correct) : " << val_correct[dev_id] << std::endl;
+            // out << "(test correct) : " << test_correct[dev_id] << std::endl;
+            // NtsVar lab = subgraph->label_gpu.to(torch::DeviceType::CPU);
+            // NtsVar mask = subgraph->mask_gpu.to(torch::DeviceType::CPU);
+            // for(int i = 0; i < lab.size(0); i++)
+            // {
+            //     out << "dst id[" << i + subgraph->subgraph_offset[subgraph->device_id] << "] label/mask: ";
+            //     out << lab.data<long>()[i]<< " " << mask.data<int>()[i]<< " ";
+            //     out << std::endl;
+            // }
+
+        // device_ctx[dev_id]->self_backward(out, false);
+        // sleep(5);
+        // assert(false);
         device_ctx[dev_id]->self_backward(false);
 
         Update(subgraph);
+
+        //Updata for debug
+        // for(int i = 0; i < subgraph->P.size(); i++)
+        // {
+        //     // out << "layer[" << i << "] W grad size: " << subgraph->P[i]->W.grad().sizes() << std::endl;
+        //     // out << "layer[" << i << "] W grad device: " << subgraph->P[i]->W.grad().device() << std::endl;
+        //     // out << "layer[" << i << "] before allreduce W grad size: " << subgraph->P[i]->W << std::endl;
+        //     subgraph->P[i]->reduce_multi_gpu_gradient(subgraph->P[i]->W.grad(), subgraph->device_id, subgraph->cs->stream);
+        //     // out << "layer[" << i << "] after allreduce W grad size: " << subgraph->P[i]->W << std::endl;
+        //     subgraph->P[i]->learnC2G_with_decay_Adam();
+        //     // subgraph->P[i]->learn_local_with_decay_Adam();
+        //     subgraph->P[i]->next();
+        // }
+        // for (int i = 0; i < subgraph->P.size(); i++) {
+        //    subgraph->P[i]->zero_grad();
+        // }
+
 
     }
     

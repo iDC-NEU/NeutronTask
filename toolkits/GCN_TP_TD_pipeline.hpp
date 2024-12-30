@@ -1,6 +1,6 @@
 #include "core/neutronstar.hpp"
 // GCN TP+TD P
-class APPNP_Double_Decouple_pipeline_impl {
+class GCN_TP_TD_pipeline_impl {
 public:
     int iterations;
 
@@ -83,7 +83,7 @@ public:
     
     double no_P_time = 0.0;
     
-    APPNP_Double_Decouple_pipeline_impl(Graph<Empty> *graph_, int iterations_,
+    GCN_TP_TD_pipeline_impl(Graph<Empty> *graph_, int iterations_,
                bool process_local = false, bool process_overlap = false){
         graph = graph_;
         iterations = iterations_;
