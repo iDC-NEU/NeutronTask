@@ -1044,8 +1044,38 @@ public:
     {
         T_num = 1;
         P_num = num_devices - T_num;
+        // if (num_devices <= 0) {
+        //     printf("Error: num_devices must be greater than 0.\n");
+        //     return;
+        // }
+        // cudaDeviceProp deviceProp;
+        // cudaGetDeviceProperties(&deviceProp, 0);
+        // double flops = deviceProp.clockRate * 1e3 * deviceProp.multiProcessorCount * 2;
+        // double bandwidth = 2.0 * deviceProp.memoryClockRate * 1e3 * (deviceProp.memoryBusWidth / 8.0);
+        // VertexId vertices = whole_graph->vertices; 
+        // VertexId edges = whole_graph->edges; 
+        // int avg_degree = edges / vertices; 
+        // double alpha = 0.5; 
+        // double d_last_T = 128;
+        // double d_last_P = 128; 
+        // double T_t = 0;
+        // for (int l = 1; l <= layer_T; l++) {
+        //     double d_l_in = 128; 
+        //     double d_l_out = (l == layer_T) ? d_last_T : 128;
+        //     T_t += 2.0 * vertices * d_l_in * d_l_out / flops + 2.0 * edges * avg_degree * d_last_T / bandwidth;
+        // }
+        // double T_p = 0;
+        // for (int l = 1; l <= layer_P; l++) {
+        //     double d_l_in = 128; 
+        //     T_p += alpha * 2.0 * vertices * avg_degree * d_l_in / flops
+        //         + (1 - alpha) * (vertices * avg_degree * (1 + 2 * d_l_in) + vertices) / bandwidth;
+        // }
+        // double ratio_T_p = T_p / (T_p + T_t);
+        // int computed_T_num = std::round(num_devices * (1 - ratio_T_p));
+        // int computed_P_num = num_devices - computed_T_num;
 
     }
+
 
     void alloc_GPU_handle_chunk()
     {

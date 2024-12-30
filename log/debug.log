@@ -32,7 +32,7 @@ not supported configure
 not supported configure
 not supported configure
 not supported configure
-algorithm	:	APPNP_DP
+algorithm	:	GCNTPTDpipeline
 vertices	:	2708
 epochs		:	201
 layers		:	1433-128-128-128-128-128-128-128-7
@@ -54,4 +54,47 @@ decay_rate	:	0.97
 decay_epoch	:	100
 drop_rate	:	0.5
 ------------------input info--------------
-exec_time=0.032851(s)
+2024-12-30 14:31:22 [home/hdd2/lusz/NeutronTask/toolkits/GCN_TP_TD_pipeline.hpp:96:GCN_TP_TD_pipeline_impl] INFO  - gpu num: 4
+2024-12-30 14:31:22 [home/hdd2/lusz/NeutronTask/toolkits/GCN_TP_TD_pipeline.hpp:102:GCN_TP_TD_pipeline_impl] INFO  - if resourse_decoupled: 1
+2024-12-30 14:31:22 [home/hdd2/lusz/NeutronTask/toolkits/GCN_TP_TD_pipeline.hpp:109:GCN_TP_TD_pipeline_impl] INFO  - pipeline num: 4
+NeutronStar::Preprocessing[Generate Full Replicated Graph Topo]
+------------------finish graph preprocessing--------------
+
+read_finish
+edge file path : ./nts_data/reorder/cora-4part/reorder.edge.self
+split path : ./nts_data/reorder/cora-4part/split_edge/partition.info
+ lalalal 0 680
+ lalalal 1 679
+ lalalal 2 673
+ lalalal 3 676
+vtx size : 4
+partition offset : 0 680 1359 2032 2708
+-------------------------------------chunk id : 0  
+		  owned edges:3403, owned vertices:680
+finish generate partition subgraphs
+finish partition to chunks
+-------------------------------------chunk id : 1  
+		  owned edges:3409, owned vertices:679
+finish generate partition subgraphs
+finish partition to chunks
+-------------------------------------chunk id : 2  
+		  owned edges:3391, owned vertices:673
+finish generate partition subgraphs
+finish partition to chunks
+-------------------------------------chunk id : 3  
+		  owned edges:3363, owned vertices:676
+finish generate partition subgraphs
+finish partition to chunks
+Computed T_t: 0.065566, T_p: 0.002093
+T_num: 1, P_num: 3
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 2914616 RUNNING AT gpunode1
+=   EXIT CODE: 136
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+YOUR APPLICATION TERMINATED WITH THE EXIT STRING: Floating point exception (signal 8)
+This typically refers to a problem with your application.
+Please see the FAQ page for debugging suggestions

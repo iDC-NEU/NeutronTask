@@ -9,6 +9,6 @@ cd build
 make -j 24
 cd ..
 
-./run_nts.sh 1 APPNP.cfg > ./log/debug.log
-# ./run_nts.sh 1 APPNP.cfg
+# ./run_nts.sh 1 APPNP.cfg > ./log/debug.log
+./run_nts.sh 1 APPNP.cfg
 echo "finish"
