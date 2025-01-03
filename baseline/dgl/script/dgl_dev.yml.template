@@ -1,0 +1,57 @@
+name: __NAME__
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - libstdcxx-ng>=9.5.0
+  - python=__PYTHON_VERSION__
+  - pip
+  - graphviz
+  - pandoc
+  - pygraphviz
+  - pip:
+    - --find-links https://download.pytorch.org/whl/torch/
+    - cmake>=3.18
+    - cython
+    - filelock
+    - matplotlib
+    - networkx
+    - nltk
+    - nose
+    - numpy
+    - ogb
+    - pandas
+    - psutil
+    - pyarrow
+    - pydantic>=2.0
+    - pytest
+    - pyyaml
+    - rdflib
+    - requests[security]
+    - scikit-learn
+    - scipy
+    - torch==__TORCH_VERSION__
+    - torcheval
+    - torchmetrics
+    - torch_geometric
+    - tqdm
+    - boto3 # AWS SDK for python
+    - sphinx
+    - sphinx-gallery
+    - sphinx_rtd_theme
+    - sphinx_copybutton
+    - sphinxemoji
+    - nbsphinx
+    - nbsphinx-link
+    - pillow
+    - seaborn
+    - jupyter_http_over_ws
+    - ufmt
+    - clang-format
+    - pylint
+    - lintrunner
+    - jupyterlab
+    - ipywidgets
+    - expecttest
+variables:
+  DGL_HOME: __DGL_HOME__

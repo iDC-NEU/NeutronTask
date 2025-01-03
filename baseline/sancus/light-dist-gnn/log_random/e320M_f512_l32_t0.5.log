@@ -1,0 +1,1306 @@
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+21:27:49.421197 [1] proc begin: <DistEnv 1/4 nccl>
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+21:27:49.469869 [3] proc begin: <DistEnv 3/4 nccl>
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+21:27:49.499781 [2] proc begin: <DistEnv 2/4 nccl>
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+no spmm cpp: cannot import name 'spmm_cusparse_coo' from 'spmm_cpp' (unknown location)
+21:27:49.506520 [0] proc begin: <DistEnv 0/4 nccl>
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+21:28:22.014310 [3] graph loaded <COO Graph: e320M_f512_l32_t0.5, |V|: 2000000, |E|: 320000000, masks: 1000000,200000,800000><Local: 3, |V|: 500000, |E|: 4346637>
+21:28:22.020238 [3] graph loaded
+ |===========================================================================|
+|                  PyTorch CUDA memory summary, device ID 3                 |
+|---------------------------------------------------------------------------|
+|            CUDA OOMs: 0            |        cudaMalloc retries: 0         |
+|===========================================================================|
+|        Metric         | Cur Usage  | Peak Usage | Tot Alloc  | Tot Freed  |
+|---------------------------------------------------------------------------|
+| Allocated memory      |   1039 MiB |   1055 MiB |   1089 MiB |  51113 KiB |
+|       from large pool |   1039 MiB |   1055 MiB |   1089 MiB |  51105 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      7 KiB |
+|---------------------------------------------------------------------------|
+| Active memory         |   1039 MiB |   1055 MiB |   1089 MiB |  51113 KiB |
+|       from large pool |   1039 MiB |   1055 MiB |   1089 MiB |  51105 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      7 KiB |
+|---------------------------------------------------------------------------|
+| Requested memory      |   1038 MiB |   1053 MiB |   1086 MiB |  48832 KiB |
+|       from large pool |   1038 MiB |   1053 MiB |   1086 MiB |  48828 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      4 KiB |
+|---------------------------------------------------------------------------|
+| GPU reserved memory   |   1072 MiB |   1072 MiB |   1072 MiB |      0 B   |
+|       from large pool |   1070 MiB |   1070 MiB |   1070 MiB |      0 B   |
+|       from small pool |      2 MiB |      2 MiB |      2 MiB |      0 B   |
+|---------------------------------------------------------------------------|
+| Non-releasable memory |  15089 KiB |  19998 KiB |  49532 KiB |  34442 KiB |
+|       from large pool |  15089 KiB |  19998 KiB |  43383 KiB |  28294 KiB |
+|       from small pool |      0 KiB |   2047 KiB |   6148 KiB |   6148 KiB |
+|---------------------------------------------------------------------------|
+| Allocations           |      11    |      15    |      24    |      13    |
+|       from large pool |      11    |      12    |      15    |       4    |
+|       from small pool |       0    |       3    |       9    |       9    |
+|---------------------------------------------------------------------------|
+| Active allocs         |      11    |      15    |      24    |      13    |
+|       from large pool |      11    |      12    |      15    |       4    |
+|       from small pool |       0    |       3    |       9    |       9    |
+|---------------------------------------------------------------------------|
+| GPU reserved segments |       7    |       7    |       7    |       0    |
+|       from large pool |       6    |       6    |       6    |       0    |
+|       from small pool |       1    |       1    |       1    |       0    |
+|---------------------------------------------------------------------------|
+| Non-releasable allocs |       4    |       5    |       9    |       5    |
+|       from large pool |       4    |       4    |       6    |       2    |
+|       from small pool |       0    |       1    |       3    |       3    |
+|---------------------------------------------------------------------------|
+| Oversize allocations  |       0    |       0    |       0    |       0    |
+|---------------------------------------------------------------------------|
+| Oversize GPU segments |       0    |       0    |       0    |       0    |
+|===========================================================================|
+
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+21:28:36.303535 [2] graph loaded <COO Graph: e320M_f512_l32_t0.5, |V|: 2000000, |E|: 320000000, masks: 1000000,200000,800000><Local: 2, |V|: 500000, |E|: 31921155>
+21:28:36.317826 [2] graph loaded
+ |===========================================================================|
+|                  PyTorch CUDA memory summary, device ID 2                 |
+|---------------------------------------------------------------------------|
+|            CUDA OOMs: 0            |        cudaMalloc retries: 0         |
+|===========================================================================|
+|        Metric         | Cur Usage  | Peak Usage | Tot Alloc  | Tot Freed  |
+|---------------------------------------------------------------------------|
+| Allocated memory      |   1250 MiB |   1266 MiB |   1300 MiB |  51113 KiB |
+|       from large pool |   1250 MiB |   1266 MiB |   1300 MiB |  51105 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      7 KiB |
+|---------------------------------------------------------------------------|
+| Active memory         |   1250 MiB |   1266 MiB |   1300 MiB |  51113 KiB |
+|       from large pool |   1250 MiB |   1266 MiB |   1300 MiB |  51105 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      7 KiB |
+|---------------------------------------------------------------------------|
+| Requested memory      |   1248 MiB |   1263 MiB |   1296 MiB |  48832 KiB |
+|       from large pool |   1248 MiB |   1263 MiB |   1296 MiB |  48828 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      4 KiB |
+|---------------------------------------------------------------------------|
+| GPU reserved memory   |   1284 MiB |   1284 MiB |   1284 MiB |      0 B   |
+|       from large pool |   1282 MiB |   1282 MiB |   1282 MiB |      0 B   |
+|       from small pool |      2 MiB |      2 MiB |      2 MiB |      0 B   |
+|---------------------------------------------------------------------------|
+| Non-releasable memory |  15783 KiB |  19998 KiB |  50226 KiB |  34442 KiB |
+|       from large pool |  15783 KiB |  19998 KiB |  44077 KiB |  28294 KiB |
+|       from small pool |      0 KiB |   2047 KiB |   6148 KiB |   6148 KiB |
+|---------------------------------------------------------------------------|
+| Allocations           |      13    |      17    |      26    |      13    |
+|       from large pool |      13    |      14    |      17    |       4    |
+|       from small pool |       0    |       3    |       9    |       9    |
+|---------------------------------------------------------------------------|
+| Active allocs         |      13    |      17    |      26    |      13    |
+|       from large pool |      13    |      14    |      17    |       4    |
+|       from small pool |       0    |       3    |       9    |       9    |
+|---------------------------------------------------------------------------|
+| GPU reserved segments |       9    |       9    |       9    |       0    |
+|       from large pool |       8    |       8    |       8    |       0    |
+|       from small pool |       1    |       1    |       1    |       0    |
+|---------------------------------------------------------------------------|
+| Non-releasable allocs |       4    |       5    |       9    |       5    |
+|       from large pool |       4    |       4    |       6    |       2    |
+|       from small pool |       0    |       1    |       3    |       3    |
+|---------------------------------------------------------------------------|
+| Oversize allocations  |       0    |       0    |       0    |       0    |
+|---------------------------------------------------------------------------|
+| Oversize GPU segments |       0    |       0    |       0    |       0    |
+|===========================================================================|
+
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+21:28:46.921309 [1] graph loaded <COO Graph: e320M_f512_l32_t0.5, |V|: 2000000, |E|: 320000000, masks: 1000000,200000,800000><Local: 1, |V|: 500000, |E|: 63351248>
+21:28:46.933493 [1] graph loaded
+ |===========================================================================|
+|                  PyTorch CUDA memory summary, device ID 1                 |
+|---------------------------------------------------------------------------|
+|            CUDA OOMs: 0            |        cudaMalloc retries: 0         |
+|===========================================================================|
+|        Metric         | Cur Usage  | Peak Usage | Tot Alloc  | Tot Freed  |
+|---------------------------------------------------------------------------|
+| Allocated memory      |   1490 MiB |   1506 MiB |   1540 MiB |  51113 KiB |
+|       from large pool |   1490 MiB |   1506 MiB |   1540 MiB |  51105 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      7 KiB |
+|---------------------------------------------------------------------------|
+| Active memory         |   1490 MiB |   1506 MiB |   1540 MiB |  51113 KiB |
+|       from large pool |   1490 MiB |   1506 MiB |   1540 MiB |  51105 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      7 KiB |
+|---------------------------------------------------------------------------|
+| Requested memory      |   1488 MiB |   1503 MiB |   1536 MiB |  48832 KiB |
+|       from large pool |   1488 MiB |   1503 MiB |   1536 MiB |  48828 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      4 KiB |
+|---------------------------------------------------------------------------|
+| GPU reserved memory   |   1524 MiB |   1524 MiB |   1524 MiB |      0 B   |
+|       from large pool |   1522 MiB |   1522 MiB |   1522 MiB |      0 B   |
+|       from small pool |      2 MiB |      2 MiB |      2 MiB |      0 B   |
+|---------------------------------------------------------------------------|
+| Non-releasable memory |  16091 KiB |  19998 KiB |  50695 KiB |  34603 KiB |
+|       from large pool |  16091 KiB |  19998 KiB |  44546 KiB |  28455 KiB |
+|       from small pool |      0 KiB |   2047 KiB |   6148 KiB |   6148 KiB |
+|---------------------------------------------------------------------------|
+| Allocations           |      15    |      19    |      28    |      13    |
+|       from large pool |      15    |      16    |      19    |       4    |
+|       from small pool |       0    |       3    |       9    |       9    |
+|---------------------------------------------------------------------------|
+| Active allocs         |      15    |      19    |      28    |      13    |
+|       from large pool |      15    |      16    |      19    |       4    |
+|       from small pool |       0    |       3    |       9    |       9    |
+|---------------------------------------------------------------------------|
+| GPU reserved segments |      11    |      11    |      11    |       0    |
+|       from large pool |      10    |      10    |      10    |       0    |
+|       from small pool |       1    |       1    |       1    |       0    |
+|---------------------------------------------------------------------------|
+| Non-releasable allocs |       2    |       3    |       9    |       7    |
+|       from large pool |       2    |       3    |       6    |       4    |
+|       from small pool |       0    |       1    |       3    |       3    |
+|---------------------------------------------------------------------------|
+| Oversize allocations  |       0    |       0    |       0    |       0    |
+|---------------------------------------------------------------------------|
+| Oversize GPU segments |       0    |       0    |       0    |       0    |
+|===========================================================================|
+
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+coo torch.Size([500000, 500000])
+csr torch.Size([500000, 500000])
+small csr torch.Size([500000, 500000])
+21:28:59.046485 [0] graph loaded <COO Graph: e320M_f512_l32_t0.5, |V|: 2000000, |E|: 320000000, masks: 1000000,200000,800000><Local: 0, |V|: 500000, |E|: 222378358>
+21:28:59.062122 [0] graph loaded
+ |===========================================================================|
+|                  PyTorch CUDA memory summary, device ID 0                 |
+|---------------------------------------------------------------------------|
+|            CUDA OOMs: 0            |        cudaMalloc retries: 0         |
+|===========================================================================|
+|        Metric         | Cur Usage  | Peak Usage | Tot Alloc  | Tot Freed  |
+|---------------------------------------------------------------------------|
+| Allocated memory      |   2706 MiB |   2722 MiB |   2756 MiB |  51113 KiB |
+|       from large pool |   2706 MiB |   2722 MiB |   2756 MiB |  51105 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      7 KiB |
+|---------------------------------------------------------------------------|
+| Active memory         |   2706 MiB |   2722 MiB |   2756 MiB |  51113 KiB |
+|       from large pool |   2706 MiB |   2722 MiB |   2756 MiB |  51105 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      7 KiB |
+|---------------------------------------------------------------------------|
+| Requested memory      |   2701 MiB |   2717 MiB |   2749 MiB |  48832 KiB |
+|       from large pool |   2701 MiB |   2717 MiB |   2749 MiB |  48828 KiB |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      4 KiB |
+|---------------------------------------------------------------------------|
+| GPU reserved memory   |   2736 MiB |   2736 MiB |   2736 MiB |      0 B   |
+|       from large pool |   2734 MiB |   2734 MiB |   2734 MiB |      0 B   |
+|       from small pool |      2 MiB |      2 MiB |      2 MiB |      0 B   |
+|---------------------------------------------------------------------------|
+| Non-releasable memory |  12184 KiB |  19998 KiB |  46627 KiB |  34442 KiB |
+|       from large pool |  12184 KiB |  19998 KiB |  40478 KiB |  28294 KiB |
+|       from small pool |      0 KiB |   2047 KiB |   6148 KiB |   6148 KiB |
+|---------------------------------------------------------------------------|
+| Allocations           |      17    |      21    |      30    |      13    |
+|       from large pool |      17    |      18    |      21    |       4    |
+|       from small pool |       0    |       3    |       9    |       9    |
+|---------------------------------------------------------------------------|
+| Active allocs         |      17    |      21    |      30    |      13    |
+|       from large pool |      17    |      18    |      21    |       4    |
+|       from small pool |       0    |       3    |       9    |       9    |
+|---------------------------------------------------------------------------|
+| GPU reserved segments |      13    |      13    |      13    |       0    |
+|       from large pool |      12    |      12    |      12    |       0    |
+|       from small pool |       1    |       1    |       1    |       0    |
+|---------------------------------------------------------------------------|
+| Non-releasable allocs |       2    |       3    |       7    |       5    |
+|       from large pool |       2    |       2    |       4    |       2    |
+|       from small pool |       0    |       1    |       3    |       3    |
+|---------------------------------------------------------------------------|
+| Oversize allocations  |       0    |       0    |       0    |       0    |
+|---------------------------------------------------------------------------|
+| Oversize GPU segments |       0    |       0    |       0    |       0    |
+|===========================================================================|
+
+21:29:02.195030 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:02.209420 [2] Warning: no training nodes in this partition! Backward fake loss.
+21:29:03.900740 [0] Epoch 00000 | Loss 3.4675
+21:29:03.962416 [0] Epoch: 000, Train: 0.0313, Val: 0.0317, Test: 0.0310
+21:29:04.980865 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:04.996413 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031046
+21:29:05.554999 [0] Epoch 00001 | Loss 15073.6562
+21:29:05.577481 [0] Epoch: 001, Train: 0.0312, Val: 0.0317, Test: 0.0311
+21:29:06.596239 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:06.611494 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031096
+21:29:07.166586 [0] Epoch 00002 | Loss 4874.6201
+21:29:07.187821 [0] Epoch: 002, Train: 0.0313, Val: 0.0310, Test: 0.0312
+21:29:08.204779 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:08.220072 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031161
+21:29:08.772608 [0] Epoch 00003 | Loss 1402.1683
+21:29:08.793588 [0] Epoch: 003, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:09.811279 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:09.826734 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:10.381951 [0] Epoch 00004 | Loss 1967.8770
+21:29:10.403056 [0] Epoch: 004, Train: 0.0314, Val: 0.0309, Test: 0.0311
+21:29:11.417906 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:11.433310 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031143
+21:29:11.988170 [0] Epoch 00005 | Loss 1694.4243
+21:29:12.009433 [0] Epoch: 005, Train: 0.0314, Val: 0.0311, Test: 0.0312
+21:29:13.022703 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:13.038377 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031214
+21:29:13.589945 [0] Epoch 00006 | Loss 1015.4785
+21:29:13.611382 [0] Epoch: 006, Train: 0.0309, Val: 0.0314, Test: 0.0313
+21:29:14.624572 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:14.639747 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031274
+21:29:15.190488 [0] Epoch 00007 | Loss 595.0638
+21:29:15.211116 [0] Epoch: 007, Train: 0.0312, Val: 0.0309, Test: 0.0311
+21:29:16.224904 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:16.240442 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031144
+21:29:16.791065 [0] Epoch 00008 | Loss 194.5671
+21:29:16.812992 [0] Epoch: 008, Train: 0.0312, Val: 0.0316, Test: 0.0314
+21:29:17.826083 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:17.840980 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031435
+21:29:18.391494 [0] Epoch 00009 | Loss 3.4651
+21:29:18.412925 [0] Epoch: 009, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:19.425942 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:19.441003 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:19.990705 [0] Epoch 00010 | Loss 3.4651
+21:29:20.011110 [0] Epoch: 010, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:21.024809 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:21.039617 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:21.589731 [0] Epoch 00011 | Loss 3.4651
+21:29:21.610256 [0] Epoch: 011, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:22.623306 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:22.639263 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:23.188675 [0] Epoch 00012 | Loss 3.4651
+21:29:23.209611 [0] Epoch: 012, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:24.222942 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:24.238461 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:24.788547 [0] Epoch 00013 | Loss 3.4651
+21:29:24.809054 [0] Epoch: 013, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:25.823793 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:25.838839 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:26.388540 [0] Epoch 00014 | Loss 3.4651
+21:29:26.409092 [0] Epoch: 014, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:27.422001 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:27.437174 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:27.986506 [0] Epoch 00015 | Loss 3.4651
+21:29:28.007023 [0] Epoch: 015, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:29.019896 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:29.035859 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:29.586345 [0] Epoch 00016 | Loss 3.4651
+21:29:29.607108 [0] Epoch: 016, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:30.620105 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:30.635256 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:31.188115 [0] Epoch 00017 | Loss 3.4651
+21:29:31.209207 [0] Epoch: 017, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:32.222225 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:32.237647 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:32.790471 [0] Epoch 00018 | Loss 3.4651
+21:29:32.811167 [0] Epoch: 018, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:33.823696 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:33.839167 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:34.391022 [0] Epoch 00019 | Loss 3.4651
+21:29:34.411711 [0] Epoch: 019, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:35.424855 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:35.439993 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:35.992292 [0] Epoch 00020 | Loss 3.4651
+21:29:36.013394 [0] Epoch: 020, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:37.025827 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:37.041430 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:37.594123 [0] Epoch 00021 | Loss 3.4651
+21:29:37.615119 [0] Epoch: 021, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:38.627821 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:38.643133 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:39.193822 [0] Epoch 00022 | Loss 3.4651
+21:29:39.214443 [0] Epoch: 022, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:40.227635 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:40.242622 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:40.792699 [0] Epoch 00023 | Loss 3.4651
+21:29:40.814002 [0] Epoch: 023, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:41.826781 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:41.842320 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:42.391911 [0] Epoch 00024 | Loss 3.4651
+21:29:42.412541 [0] Epoch: 024, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:43.427070 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:43.442679 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:43.992379 [0] Epoch 00025 | Loss 3.4651
+21:29:44.013314 [0] Epoch: 025, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:45.026408 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:45.041642 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:45.592269 [0] Epoch 00026 | Loss 3.4651
+21:29:45.612830 [0] Epoch: 026, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:46.626238 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:46.641534 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:47.190601 [0] Epoch 00027 | Loss 3.4651
+21:29:47.211242 [0] Epoch: 027, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:48.224672 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:48.240354 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:48.790461 [0] Epoch 00028 | Loss 3.4651
+21:29:48.810991 [0] Epoch: 028, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:49.824166 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:49.839461 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:50.389157 [0] Epoch 00029 | Loss 3.4651
+21:29:50.410255 [0] Epoch: 029, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:51.423707 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:51.438919 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:51.988682 [0] Epoch 00030 | Loss 3.4651
+21:29:52.009215 [0] Epoch: 030, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:53.022394 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:53.037762 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:53.588332 [0] Epoch 00031 | Loss 3.4651
+21:29:53.608997 [0] Epoch: 031, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:54.622156 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:54.637370 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:55.187922 [0] Epoch 00032 | Loss 3.4651
+21:29:55.208529 [0] Epoch: 032, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:56.221941 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:56.237535 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:56.787498 [0] Epoch 00033 | Loss 3.4651
+21:29:56.808259 [0] Epoch: 033, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:57.821401 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:57.836843 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:58.386294 [0] Epoch 00034 | Loss 3.4651
+21:29:58.407155 [0] Epoch: 034, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:29:59.420048 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:29:59.435213 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:29:59.984430 [0] Epoch 00035 | Loss 3.4651
+21:30:00.004902 [0] Epoch: 035, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:01.017286 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:01.032905 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:01.586252 [0] Epoch 00036 | Loss 3.4651
+21:30:01.607755 [0] Epoch: 036, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:02.629620 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:02.645532 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:03.202735 [0] Epoch 00037 | Loss 3.4651
+21:30:03.223925 [0] Epoch: 037, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:04.238635 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:04.253892 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:04.806598 [0] Epoch 00038 | Loss 3.4651
+21:30:04.827596 [0] Epoch: 038, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:05.841458 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:05.856979 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:06.409826 [0] Epoch 00039 | Loss 3.4651
+21:30:06.430837 [0] Epoch: 039, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:07.444290 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:07.460202 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:08.012821 [0] Epoch 00040 | Loss 3.4651
+21:30:08.033703 [0] Epoch: 040, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:09.047007 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:09.062386 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:09.615163 [0] Epoch 00041 | Loss 3.4651
+21:30:09.635919 [0] Epoch: 041, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:10.649543 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:10.665066 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:11.218911 [0] Epoch 00042 | Loss 3.4651
+21:30:11.239790 [0] Epoch: 042, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:12.252967 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:12.268447 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:12.822157 [0] Epoch 00043 | Loss 3.4651
+21:30:12.842984 [0] Epoch: 043, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:13.857730 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:13.872966 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:14.426333 [0] Epoch 00044 | Loss 3.4651
+21:30:14.447256 [0] Epoch: 044, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:15.460909 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:15.476333 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:16.030224 [0] Epoch 00045 | Loss 3.4651
+21:30:16.051829 [0] Epoch: 045, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:17.065726 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:17.081219 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:17.634781 [0] Epoch 00046 | Loss 3.4651
+21:30:17.656060 [0] Epoch: 046, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:18.669994 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:18.685220 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:19.238876 [0] Epoch 00047 | Loss 3.4651
+21:30:19.259698 [0] Epoch: 047, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:20.272409 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:20.287712 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:20.840891 [0] Epoch 00048 | Loss 3.4651
+21:30:20.861679 [0] Epoch: 048, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:21.874702 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:21.890160 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:22.443485 [0] Epoch 00049 | Loss 3.4651
+21:30:22.464352 [0] Epoch: 049, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:23.478773 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:23.494139 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:24.045884 [0] Epoch 00050 | Loss 3.4651
+21:30:24.066644 [0] Epoch: 050, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:24.107730 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:24.220727 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:25.499057 [0] Epoch 00051 | Loss 3.4651
+21:30:25.519654 [0] Epoch: 051, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:26.533846 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:26.549546 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:27.098689 [0] Epoch 00052 | Loss 3.4651
+21:30:27.119312 [0] Epoch: 052, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:27.160441 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:27.273526 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:28.554482 [0] Epoch 00053 | Loss 3.4651
+21:30:28.575244 [0] Epoch: 053, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:29.589498 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:29.605054 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:30.154587 [0] Epoch 00054 | Loss 3.4651
+21:30:30.175296 [0] Epoch: 054, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:30.216440 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:30.329577 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:31.606419 [0] Epoch 00055 | Loss 3.4651
+21:30:31.627527 [0] Epoch: 055, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:32.641081 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:32.656231 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:33.206217 [0] Epoch 00056 | Loss 3.4651
+21:30:33.226825 [0] Epoch: 056, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:33.268055 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:33.380924 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:34.658934 [0] Epoch 00057 | Loss 3.4651
+21:30:34.679724 [0] Epoch: 057, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:35.693321 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:35.708726 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:36.258982 [0] Epoch 00058 | Loss 3.4651
+21:30:36.279702 [0] Epoch: 058, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:36.320901 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:36.433707 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:37.711691 [0] Epoch 00059 | Loss 3.4651
+21:30:37.732341 [0] Epoch: 059, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:38.745884 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:38.761539 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:39.311429 [0] Epoch 00060 | Loss 3.4651
+21:30:39.331964 [0] Epoch: 060, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:39.373416 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:39.486013 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:40.764410 [0] Epoch 00061 | Loss 3.4651
+21:30:40.785572 [0] Epoch: 061, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:41.799591 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:41.814604 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:42.364236 [0] Epoch 00062 | Loss 3.4651
+21:30:42.384727 [0] Epoch: 062, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:42.425954 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:42.538919 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:43.816427 [0] Epoch 00063 | Loss 3.4651
+21:30:43.837405 [0] Epoch: 063, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:44.850885 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:44.866453 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:45.417448 [0] Epoch 00064 | Loss 3.4651
+21:30:45.438254 [0] Epoch: 064, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:45.479364 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:45.592324 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:46.869379 [0] Epoch 00065 | Loss 3.4651
+21:30:46.890011 [0] Epoch: 065, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:47.903680 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:47.919197 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:48.469650 [0] Epoch 00066 | Loss 3.4651
+21:30:48.490225 [0] Epoch: 066, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:48.531371 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:48.644311 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:49.922726 [0] Epoch 00067 | Loss 3.4651
+21:30:49.943559 [0] Epoch: 067, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:50.957591 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:50.973303 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:51.523234 [0] Epoch 00068 | Loss 3.4651
+21:30:51.544131 [0] Epoch: 068, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:51.585730 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:51.698480 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:52.976187 [0] Epoch 00069 | Loss 3.4651
+21:30:52.997278 [0] Epoch: 069, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:54.011577 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:54.026993 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:54.578362 [0] Epoch 00070 | Loss 3.4651
+21:30:54.599001 [0] Epoch: 070, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:54.640113 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:54.753048 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:56.030517 [0] Epoch 00071 | Loss 3.4651
+21:30:56.051479 [0] Epoch: 071, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:57.065608 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:57.081021 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:57.630291 [0] Epoch 00072 | Loss 3.4651
+21:30:57.650924 [0] Epoch: 072, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:30:57.692021 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:30:57.804821 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:30:59.083173 [0] Epoch 00073 | Loss 3.4651
+21:30:59.104315 [0] Epoch: 073, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:00.117365 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:00.132745 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:00.682481 [0] Epoch 00074 | Loss 3.4651
+21:31:00.703002 [0] Epoch: 074, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:00.744238 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:00.857224 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:02.139868 [0] Epoch 00075 | Loss 3.4651
+21:31:02.161263 [0] Epoch: 075, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:03.185141 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:03.200982 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:03.754090 [0] Epoch 00076 | Loss 3.4651
+21:31:03.774915 [0] Epoch: 076, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:03.816066 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:03.929478 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:05.207565 [0] Epoch 00077 | Loss 3.4651
+21:31:05.229681 [0] Epoch: 077, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:06.244461 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:06.259910 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:06.810769 [0] Epoch 00078 | Loss 3.4651
+21:31:06.831824 [0] Epoch: 078, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:06.872683 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:06.985405 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:08.266497 [0] Epoch 00079 | Loss 3.4651
+21:31:08.287227 [0] Epoch: 079, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:09.304084 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:09.319303 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:09.869527 [0] Epoch 00080 | Loss 3.4651
+21:31:09.890521 [0] Epoch: 080, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:09.932099 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:10.044443 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:11.323595 [0] Epoch 00081 | Loss 3.4651
+21:31:11.344827 [0] Epoch: 081, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:12.361082 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:12.376480 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:12.927940 [0] Epoch 00082 | Loss 3.4651
+21:31:12.948724 [0] Epoch: 082, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:12.989821 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:13.102552 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:14.380490 [0] Epoch 00083 | Loss 3.4651
+21:31:14.401072 [0] Epoch: 083, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:15.415028 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:15.430470 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:15.981578 [0] Epoch 00084 | Loss 3.4651
+21:31:16.002338 [0] Epoch: 084, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:16.043384 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:16.156287 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:17.434923 [0] Epoch 00085 | Loss 3.4651
+21:31:17.455766 [0] Epoch: 085, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:18.468915 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:18.484275 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:19.035111 [0] Epoch 00086 | Loss 3.4651
+21:31:19.055703 [0] Epoch: 086, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:19.096999 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:19.209958 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:20.490023 [0] Epoch 00087 | Loss 3.4651
+21:31:20.511170 [0] Epoch: 087, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:21.525879 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:21.541278 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:22.092399 [0] Epoch 00088 | Loss 3.4651
+21:31:22.112912 [0] Epoch: 088, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:22.154145 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:22.267153 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:23.545169 [0] Epoch 00089 | Loss 3.4651
+21:31:23.565881 [0] Epoch: 089, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:24.579110 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:24.594467 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:25.143975 [0] Epoch 00090 | Loss 3.4651
+21:31:25.164646 [0] Epoch: 090, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:25.205717 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:25.318306 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:26.597057 [0] Epoch 00091 | Loss 3.4651
+21:31:26.617808 [0] Epoch: 091, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:27.630815 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:27.645968 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:28.195473 [0] Epoch 00092 | Loss 3.4651
+21:31:28.216422 [0] Epoch: 092, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:28.257591 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:28.370377 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:29.649374 [0] Epoch 00093 | Loss 3.4651
+21:31:29.669760 [0] Epoch: 093, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:30.683644 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:30.699133 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:31.249769 [0] Epoch 00094 | Loss 3.4651
+21:31:31.270180 [0] Epoch: 094, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:31.311457 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:31.424109 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:32.702075 [0] Epoch 00095 | Loss 3.4651
+21:31:32.722690 [0] Epoch: 095, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:33.735744 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:33.751091 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:34.300731 [0] Epoch 00096 | Loss 3.4651
+21:31:34.321401 [0] Epoch: 096, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:34.362745 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:34.475310 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:35.753077 [0] Epoch 00097 | Loss 3.4651
+21:31:35.773547 [0] Epoch: 097, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:36.786977 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:36.802347 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:37.352483 [0] Epoch 00098 | Loss 3.4651
+21:31:37.373003 [0] Epoch: 098, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:37.414431 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:37.526829 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:38.805392 [0] Epoch 00099 | Loss 3.4651
+21:31:38.827184 [0] Epoch: 099, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:39.840824 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:39.855938 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:40.406230 [0] Epoch 00100 | Loss 3.4651
+21:31:40.426672 [0] Epoch: 100, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:40.468262 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:40.580606 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:41.858249 [0] Epoch 00101 | Loss 3.4651
+21:31:41.879313 [0] Epoch: 101, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:42.892375 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:42.907672 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:43.457183 [0] Epoch 00102 | Loss 3.4651
+21:31:43.477756 [0] Epoch: 102, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:43.518900 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:43.631497 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:44.910493 [0] Epoch 00103 | Loss 3.4651
+21:31:44.931312 [0] Epoch: 103, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:45.944293 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:45.959880 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:46.509135 [0] Epoch 00104 | Loss 3.4651
+21:31:46.530120 [0] Epoch: 104, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:46.571316 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:46.683989 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:47.962926 [0] Epoch 00105 | Loss 3.4651
+21:31:47.983526 [0] Epoch: 105, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:48.997384 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:49.012671 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:49.562790 [0] Epoch 00106 | Loss 3.4651
+21:31:49.583257 [0] Epoch: 106, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:49.624463 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:49.737141 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:51.015034 [0] Epoch 00107 | Loss 3.4651
+21:31:51.035633 [0] Epoch: 107, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:52.048712 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:52.064007 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:52.613072 [0] Epoch 00108 | Loss 3.4651
+21:31:52.634043 [0] Epoch: 108, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:52.675113 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:52.788131 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:54.064833 [0] Epoch 00109 | Loss 3.4651
+21:31:54.085173 [0] Epoch: 109, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:55.097479 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:55.112758 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:55.662400 [0] Epoch 00110 | Loss 3.4651
+21:31:55.682893 [0] Epoch: 110, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:55.724269 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:55.836955 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:57.114853 [0] Epoch 00111 | Loss 3.4651
+21:31:57.135690 [0] Epoch: 111, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:58.149547 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:58.164835 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:31:58.715839 [0] Epoch 00112 | Loss 3.4651
+21:31:58.736380 [0] Epoch: 112, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:31:58.778728 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:31:58.890506 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:00.167587 [0] Epoch 00113 | Loss 3.4651
+21:32:00.188524 [0] Epoch: 113, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:01.200775 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:01.216016 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:01.773249 [0] Epoch 00114 | Loss 3.4651
+21:32:01.796279 [0] Epoch: 114, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:01.837409 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:01.950488 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:03.232769 [0] Epoch 00115 | Loss 3.4651
+21:32:03.253744 [0] Epoch: 115, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:04.266917 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:04.281787 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:04.832404 [0] Epoch 00116 | Loss 3.4651
+21:32:04.853053 [0] Epoch: 116, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:04.894493 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:05.006837 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:06.286402 [0] Epoch 00117 | Loss 3.4651
+21:32:06.307415 [0] Epoch: 117, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:07.320873 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:07.336353 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:07.887657 [0] Epoch 00118 | Loss 3.4651
+21:32:07.908303 [0] Epoch: 118, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:07.949790 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:08.062186 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:09.340720 [0] Epoch 00119 | Loss 3.4651
+21:32:09.361235 [0] Epoch: 119, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:10.374401 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:10.389556 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:10.939523 [0] Epoch 00120 | Loss 3.4651
+21:32:10.960577 [0] Epoch: 120, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:11.001959 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:11.114639 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:12.393460 [0] Epoch 00121 | Loss 3.4651
+21:32:12.413938 [0] Epoch: 121, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:13.426509 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:13.441677 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:13.991653 [0] Epoch 00122 | Loss 3.4651
+21:32:14.012114 [0] Epoch: 122, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:14.053359 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:14.165925 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:15.445355 [0] Epoch 00123 | Loss 3.4651
+21:32:15.466098 [0] Epoch: 123, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:16.479145 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:16.494618 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:17.045657 [0] Epoch 00124 | Loss 3.4651
+21:32:17.066182 [0] Epoch: 124, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:17.107328 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:17.220032 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:18.498522 [0] Epoch 00125 | Loss 3.4651
+21:32:18.519393 [0] Epoch: 125, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:19.532108 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:19.547698 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:20.098321 [0] Epoch 00126 | Loss 3.4651
+21:32:20.119118 [0] Epoch: 126, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:20.160540 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:20.273234 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:21.551256 [0] Epoch 00127 | Loss 3.4651
+21:32:21.572163 [0] Epoch: 127, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:22.584321 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:22.599543 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:23.150702 [0] Epoch 00128 | Loss 3.4651
+21:32:23.171173 [0] Epoch: 128, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:23.212488 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:23.325085 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:24.603575 [0] Epoch 00129 | Loss 3.4651
+21:32:24.624111 [0] Epoch: 129, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:25.637345 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:25.652721 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:26.202485 [0] Epoch 00130 | Loss 3.4651
+21:32:26.223227 [0] Epoch: 130, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:26.264391 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:26.377020 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:27.654783 [0] Epoch 00131 | Loss 3.4651
+21:32:27.675215 [0] Epoch: 131, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:28.689077 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:28.703914 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:29.255006 [0] Epoch 00132 | Loss 3.4651
+21:32:29.275911 [0] Epoch: 132, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:29.317010 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:29.429437 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:30.707950 [0] Epoch 00133 | Loss 3.4651
+21:32:30.728334 [0] Epoch: 133, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:31.740984 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:31.756156 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:32.306000 [0] Epoch 00134 | Loss 3.4651
+21:32:32.326452 [0] Epoch: 134, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:32.367678 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:32.480243 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:33.758892 [0] Epoch 00135 | Loss 3.4651
+21:32:33.779418 [0] Epoch: 135, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:34.792552 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:34.808013 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:35.358066 [0] Epoch 00136 | Loss 3.4651
+21:32:35.378600 [0] Epoch: 136, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:35.419801 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:35.532670 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:36.810207 [0] Epoch 00137 | Loss 3.4651
+21:32:36.830681 [0] Epoch: 137, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:37.843615 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:37.859001 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:38.408919 [0] Epoch 00138 | Loss 3.4651
+21:32:38.429408 [0] Epoch: 138, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:38.470818 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:38.583348 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:39.860317 [0] Epoch 00139 | Loss 3.4651
+21:32:39.880880 [0] Epoch: 139, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:40.893944 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:40.909177 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:41.459473 [0] Epoch 00140 | Loss 3.4651
+21:32:41.480058 [0] Epoch: 140, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:41.521195 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:41.633743 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:42.912580 [0] Epoch 00141 | Loss 3.4651
+21:32:42.933336 [0] Epoch: 141, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:43.946504 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:43.961774 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:44.511905 [0] Epoch 00142 | Loss 3.4651
+21:32:44.532348 [0] Epoch: 142, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:44.573552 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:44.686288 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:45.963578 [0] Epoch 00143 | Loss 3.4651
+21:32:45.984021 [0] Epoch: 143, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:46.996419 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:47.011893 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:47.560702 [0] Epoch 00144 | Loss 3.4651
+21:32:47.581611 [0] Epoch: 144, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:47.622767 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:47.735513 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:49.012946 [0] Epoch 00145 | Loss 3.4651
+21:32:49.033599 [0] Epoch: 145, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:50.046796 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:50.062050 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:50.611475 [0] Epoch 00146 | Loss 3.4651
+21:32:50.632073 [0] Epoch: 146, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:50.673214 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:50.786120 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:52.065884 [0] Epoch 00147 | Loss 3.4651
+21:32:52.086864 [0] Epoch: 147, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:53.102116 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:53.117549 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:53.667205 [0] Epoch 00148 | Loss 3.4651
+21:32:53.687593 [0] Epoch: 148, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:53.728874 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:53.841575 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:55.119511 [0] Epoch 00149 | Loss 3.4651
+21:32:55.139961 [0] Epoch: 149, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:56.152432 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:56.167783 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:56.716324 [0] Epoch 00150 | Loss 3.4651
+21:32:56.737424 [0] Epoch: 150, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:56.778738 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:56.891285 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:58.168576 [0] Epoch 00151 | Loss 3.4651
+21:32:58.190031 [0] Epoch: 151, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:59.203177 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:59.218547 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:32:59.768214 [0] Epoch 00152 | Loss 3.4651
+21:32:59.788849 [0] Epoch: 152, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:32:59.829980 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:32:59.942757 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:01.220448 [0] Epoch 00153 | Loss 3.4651
+21:33:01.240848 [0] Epoch: 153, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:02.263167 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:02.278875 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:02.839745 [0] Epoch 00154 | Loss 3.4651
+21:33:02.860974 [0] Epoch: 154, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:02.905186 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:03.015723 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:04.294113 [0] Epoch 00155 | Loss 3.4651
+21:33:04.314774 [0] Epoch: 155, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:05.328090 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:05.343450 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:05.893135 [0] Epoch 00156 | Loss 3.4651
+21:33:05.913861 [0] Epoch: 156, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:05.955283 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:06.067543 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:07.345700 [0] Epoch 00157 | Loss 3.4651
+21:33:07.366422 [0] Epoch: 157, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:08.380339 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:08.395742 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:08.944497 [0] Epoch 00158 | Loss 3.4651
+21:33:08.965337 [0] Epoch: 158, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:09.006732 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:09.119983 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:10.398459 [0] Epoch 00159 | Loss 3.4651
+21:33:10.419747 [0] Epoch: 159, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:11.433279 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:11.448709 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:12.000448 [0] Epoch 00160 | Loss 3.4651
+21:33:12.021012 [0] Epoch: 160, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:12.062636 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:12.175430 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:13.453516 [0] Epoch 00161 | Loss 3.4651
+21:33:13.474355 [0] Epoch: 161, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:14.487132 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:14.502395 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:15.054334 [0] Epoch 00162 | Loss 3.4651
+21:33:15.074867 [0] Epoch: 162, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:15.116459 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:15.229015 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:16.506904 [0] Epoch 00163 | Loss 3.4651
+21:33:16.528332 [0] Epoch: 163, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:17.541166 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:17.556455 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:18.106808 [0] Epoch 00164 | Loss 3.4651
+21:33:18.128271 [0] Epoch: 164, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:18.169746 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:18.282601 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:19.561637 [0] Epoch 00165 | Loss 3.4651
+21:33:19.582216 [0] Epoch: 165, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:20.595692 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:20.610845 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:21.161422 [0] Epoch 00166 | Loss 3.4651
+21:33:21.182366 [0] Epoch: 166, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:21.223905 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:21.336332 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:22.615144 [0] Epoch 00167 | Loss 3.4651
+21:33:22.635719 [0] Epoch: 167, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:23.648577 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:23.664110 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:24.215086 [0] Epoch 00168 | Loss 3.4651
+21:33:24.235562 [0] Epoch: 168, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:24.276886 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:24.389560 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:25.668908 [0] Epoch 00169 | Loss 3.4651
+21:33:25.689657 [0] Epoch: 169, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:26.702198 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:26.717515 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:27.268501 [0] Epoch 00170 | Loss 3.4651
+21:33:27.289236 [0] Epoch: 170, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:27.330590 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:27.443127 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:28.722201 [0] Epoch 00171 | Loss 3.4651
+21:33:28.742880 [0] Epoch: 171, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:29.756674 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:29.771980 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:30.323802 [0] Epoch 00172 | Loss 3.4651
+21:33:30.344579 [0] Epoch: 172, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:30.385747 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:30.498269 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:31.776661 [0] Epoch 00173 | Loss 3.4651
+21:33:31.797277 [0] Epoch: 173, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:32.810043 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:32.825502 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:33.376353 [0] Epoch 00174 | Loss 3.4651
+21:33:33.396985 [0] Epoch: 174, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:33.438128 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:33.550840 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:34.828249 [0] Epoch 00175 | Loss 3.4651
+21:33:34.849753 [0] Epoch: 175, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:35.862631 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:35.877687 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:36.427346 [0] Epoch 00176 | Loss 3.4651
+21:33:36.447829 [0] Epoch: 176, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:36.489190 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:36.602106 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:37.879672 [0] Epoch 00177 | Loss 3.4651
+21:33:37.901072 [0] Epoch: 177, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:38.914628 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:38.929861 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:39.480580 [0] Epoch 00178 | Loss 3.4651
+21:33:39.501231 [0] Epoch: 178, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:39.542368 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:39.654984 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:40.933466 [0] Epoch 00179 | Loss 3.4651
+21:33:40.954131 [0] Epoch: 179, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:41.966975 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:41.982268 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:42.531413 [0] Epoch 00180 | Loss 3.4651
+21:33:42.552079 [0] Epoch: 180, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:42.593437 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:42.706218 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:43.982471 [0] Epoch 00181 | Loss 3.4651
+21:33:44.003827 [0] Epoch: 181, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:45.016523 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:45.031672 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:45.581996 [0] Epoch 00182 | Loss 3.4651
+21:33:45.602416 [0] Epoch: 182, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:45.643907 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:45.756317 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:47.034984 [0] Epoch 00183 | Loss 3.4651
+21:33:47.055750 [0] Epoch: 183, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:48.069506 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:48.084880 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:48.634975 [0] Epoch 00184 | Loss 3.4651
+21:33:48.655614 [0] Epoch: 184, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:48.696879 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:48.809428 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:50.086312 [0] Epoch 00185 | Loss 3.4651
+21:33:50.107203 [0] Epoch: 185, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:51.119427 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:51.134778 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:51.684126 [0] Epoch 00186 | Loss 3.4651
+21:33:51.704730 [0] Epoch: 186, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:51.746385 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:51.859235 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:53.137479 [0] Epoch 00187 | Loss 3.4651
+21:33:53.157964 [0] Epoch: 187, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:54.171204 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:54.186416 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:54.736045 [0] Epoch 00188 | Loss 3.4651
+21:33:54.756919 [0] Epoch: 188, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:54.798095 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:54.910750 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:56.189309 [0] Epoch 00189 | Loss 3.4651
+21:33:56.209868 [0] Epoch: 189, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:57.222799 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:57.238132 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:57.787712 [0] Epoch 00190 | Loss 3.4651
+21:33:57.808651 [0] Epoch: 190, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:33:57.849979 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:33:57.962990 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:33:59.242177 [0] Epoch 00191 | Loss 3.4651
+21:33:59.262566 [0] Epoch: 191, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:34:00.275406 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:34:00.290916 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:34:00.840891 [0] Epoch 00192 | Loss 3.4651
+21:34:00.861359 [0] Epoch: 192, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:34:00.902766 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:34:01.015362 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:34:02.305568 [0] Epoch 00193 | Loss 3.4651
+21:34:02.327236 [0] Epoch: 193, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:34:03.344668 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:34:03.359399 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:34:03.908701 [0] Epoch 00194 | Loss 3.4651
+21:34:03.929434 [0] Epoch: 194, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:34:03.971194 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:34:04.083614 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:34:05.362657 [0] Epoch 00195 | Loss 3.4651
+21:34:05.383290 [0] Epoch: 195, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:34:06.401386 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:34:06.416688 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:34:06.967522 [0] Epoch 00196 | Loss 3.4651
+21:34:06.988276 [0] Epoch: 196, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:34:07.029869 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:34:07.142429 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:34:08.420913 [0] Epoch 00197 | Loss 3.4651
+21:34:08.441538 [0] Epoch: 197, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:34:09.458318 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:34:09.473815 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:34:10.022886 [0] Epoch 00198 | Loss 3.4651
+21:34:10.043353 [0] Epoch: 198, Train: 0.0314, Val: 0.0322, Test: 0.0313
+21:34:10.085058 [3] Warning: no training nodes in this partition! Backward fake loss.
+21:34:10.197609 [2] Warning: no training nodes in this partition! Backward fake loss.
+0.031280
+21:34:11.475146 [0] Epoch 00199 | Loss 3.4651
+21:34:11.495770 [0] Epoch: 199, Train: 0.0314, Val: 0.0322, Test: 0.0313
+0.031280
+Rank: 0, local vtx: 500000, local edge: 222378358
+Model: CachedGCN layers: 2 dataset: e320M_f512_l32_t0.5 nprocs 4
+21:34:11.499930 [0] 
+timer summary:
+ 18.78s  15.91s     1 broadcast ForwardL1 0
+220.08s 118.83s  3200 broadcast
+ 89.48s 105.24s  3200 spmm
+  0.21s   0.09s     1 broadcast ForwardL1 1
+  0.18s   0.08s     1 broadcast ForwardL1 2
+  0.17s   0.07s     1 broadcast ForwardL1 3
+  4.72s   0.06s   800 mm
+ 50.94s  32.01s   125 broadcast ForwardL2 0
+ 12.25s   5.07s   125 broadcast ForwardL2 1
+ 11.65s   4.87s   125 broadcast ForwardL2 2
+ 10.47s   4.39s   125 broadcast ForwardL2 3
+ 47.49s  32.73s   200 broadcast BackwardL2 0
+  2.12s   0.88s   200 broadcast BackwardL2 1
+  2.27s   0.92s   200 broadcast BackwardL2 2
+  2.10s   0.89s   200 broadcast BackwardL2 3
+  4.64s   3.39s   400 all_reduce
+  7.26s   0.24s   200 broadcast BackwardL1 0
+ 19.31s   8.12s   200 broadcast BackwardL1 1
+ 18.33s   7.78s   200 broadcast BackwardL1 2
+ 16.44s   7.01s   200 broadcast BackwardL1 3
+329.43s  15.91s   200 epoch
+382.02s   0.04s     1 total
+Rank: 3, local vtx: 500000, local edge: 4346637
+Rank: 2, local vtx: 500000, local edge: 31921155
+Rank: 1, local vtx: 500000, local edge: 63351248
