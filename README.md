@@ -153,7 +153,7 @@ single-machine multi-GPUs
 | **GCN_DP**    | Graph Convolutional Networks (GCN) with Data Parallelism using Data Parallelism         |
 | **GCN_TP_TD_pipeline**    |  Graph Convolutional Networks (GCN) with Data Parallelism using Task Parallelism and Task Decoupled Training and pipeline|
 | **GCN_TP_TD_pipeline_wopipeline** | Graph Convolutional Networks (GCN) with Data Parallelism using Task Parallelism and Task Decoupled Training                           |
-| **GAT**   | Graph Attention Networks (GAT)          |
+| **GAT_Double_Decouple_pipeline**   | Graph Attention Networks (GAT)          |
 ## baseline
 ### Sancus
 ``` python 
