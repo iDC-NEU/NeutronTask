@@ -2,7 +2,7 @@
  * @Author: fzb fzb0316@163.com
  * @Date: 2024-09-29 18:52:21
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2024-12-30 20:51:54
+ * @LastEditTime: 2025-01-03 11:10:57
  * @FilePath: /fuzb/NtsTask/NeutronTask/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -125,26 +125,28 @@ single-machine multi-GPUs
 | 3       | 0          | 0        | 1         |
 | 4       | 1          | 0        | 0         |
 ## CFG file
-| **Section**            | **Parameter**       | **Description**                                                      |
-|------------------------|---------------------|----------------------------------------------------------------------|
-| **General Parameters**  | ALGORITHM           | Specifies the algorithm to use (e.g., APPNP, GCN).                   |
-|                        | Decoupled           | Set to 1 to enable decoupled training, 0 otherwise.                  |
-|                        | SMALLGRAPH          | Set to 1 for small graph optimizations, 0 otherwise.                  |
-| **Dataset Parameters**  | VERTICES            | Number of nodes in the graph.                                         |
-|                        | LAYERS              | Defines the neural network architecture (e.g., input-hidden-output). |
-|                        | EDGE_FILE           | Path to the graph's edge file.                                        |
-|                        | FEATURE_FILE        | Path to the node feature file.                                        |
-|                        | LABEL_FILE          | Path to the node label file.                                          |
-|                        | MASK_FILE           | Path to the file with train/val/test masks.                           |
-| **Training Parameters** | EPOCHS              | Number of training epochs.                                           |
-|                        | LEARN_RATE          | Learning rate for the optimizer.                                      |
-|                        | WEIGHT_DECAY        | Regularization to avoid overfitting.                                  |
-|                        | DROP_RATE           | Dropout rate for regularization during training.                      |
-| **Processing Parameters** | PROC_CUDA         | Set to 1 to use CUDA (GPU acceleration), 0 otherwise.                |
-|                        | GPUNUM              | Number of GPUs to use.                                                |
-|                        | PIPELINENUM         | Number of pipeline stages for processing.                             |
-| **Algorithm-Specific Parameters** | ALPHA   | PageRank teleport probability for APPNP.                              |
-|                        | K                   | Number of propagation iterations.                                     | 
+
+| **Section**            | **Parameter**       | **Description**                                                      | **Example**                   |
+|------------------------|---------------------|----------------------------------------------------------------------|--------------------------------|
+| **General Parameters**  | ALGORITHM           | Specifies the algorithm to use (e.g., APPNP, GCN).                   | APPNP                          |
+|                        | Decoupled           | Set to 1 to enable decoupled training, 0 otherwise.                  | 1                              |
+|                        | SMALLGRAPH          | Set to 1 for small graph optimizations, 0 otherwise.                 | 0                              |
+| **Dataset Parameters**  | VERTICES            | Number of nodes in the graph.                                         | 2708                           |
+|                        | LAYERS              | Defines the neural network architecture (e.g., input-hidden-output).  | 1433-64-7                      |
+|                        | EDGE_FILE           | Path to the graph's edge file.                                        | data/cora.edge                 |
+|                        | FEATURE_FILE        | Path to the node feature file.                                        | data/cora.feature              |
+|                        | LABEL_FILE          | Path to the node label file.                                          | data/cora.label                |
+|                        | MASK_FILE           | Path to the file with train/val/test masks.                           | data/cora.mask                 |
+| **Training Parameters** | EPOCHS              | Number of training epochs.                                            | 200                            |
+|                        | LEARN_RATE          | Learning rate for the optimizer.                                      | 0.01                           |
+|                        | WEIGHT_DECAY        | Regularization to avoid overfitting.                                  | 5e-4                           |
+|                        | DROP_RATE           | Dropout rate for regularization during training.                      | 0.5                            |
+| **Processing Parameters** | PROC_CUDA         | Set to 1 to use CUDA (GPU acceleration), 0 otherwise.                | 1                              |
+|                        | GPUNUM              | Number of GPUs to use.                                                | 2                              |
+|                        | PIPELINENUM         | Number of pipeline stages for processing.                             | 4                              |
+| **Algorithm-Specific Parameters** | ALPHA   | PageRank teleport probability for APPNP.                              | 0.1                            |
+|                        | K                   | Number of propagation iterations.                                     | 8                            |
+
 
 ## toolkits
 | Toolkit       | Description                                                        |
@@ -154,7 +156,9 @@ single-machine multi-GPUs
 | **GCN_TP_TD_pipeline**    |  Graph Convolutional Networks (GCN) with Data Parallelism using Task Parallelism and Task Decoupled Training and pipeline|
 | **GCN_TP_TD_pipeline_wopipeline** | Graph Convolutional Networks (GCN) with Data Parallelism using Task Parallelism and Task Decoupled Training                           |
 | **GAT_Double_Decouple_pipeline**   | Graph Attention Networks (GAT)          |
+These toolkits are configured via the **`.cfg`** file, which defines parameters such as algorithms, dataset paths, training hyperparameters, and processing options. Each toolkit can be customized by setting appropriate values in the configuration file to suit specific graph learning tasks.
 ## baseline
+Baseline script to run Sancus and DGL experiments
 ### Sancus
 ``` python 
 bash baseline/sancus/light-dist-gnn/run.sh
