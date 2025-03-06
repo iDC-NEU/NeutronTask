@@ -7,6 +7,7 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 
+# NeutronTask (VLDB 2025)
 
 **NeutronTask** is a Multi-GPU Graph Neural Networks (GNN) training framework that design GNN task parallelism and task-decoupled GNN training. 
 
@@ -44,7 +45,7 @@ download **cub** to the ./NeutronStar/cuda/ dictionary.
 
 configure PATH and LD_LIBRARY_PATH for **cuda** and **mpi**
 ```
-export CUDA_HOME=/usr/local/cuda-10.2
+export CUDA_HOME=/usr/local/cuda-11.3
 export MPI_HOME=/path/to/your/mpi
 export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 export PATH=$MPI_HOME/bin:$CUDA_HOME/bin:$PATH
